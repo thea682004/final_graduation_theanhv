@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Cart View</title>
+</head>
+
+<body>
+	<div class="breadcrumb cart-breadcrumb">
+		<a href="/">Trang chủ</a>
+		<span>&nbsp;>&nbsp;</span>
+		<a href="/product/list">Sản phẩm</a>
+		<span>&nbsp;>&nbsp;</span>
+		<span>Cart</span>
+	</div>
+
+	<section class="cart-section">
+		<div class="table-responsive cart-table">
+			<table class="w3-table-all">
+				<tr class="w3-2021-inkwell">
+					<th>STT</th>
+					<th>Tên</th>
+					<th>Hình ảnh</th>
+					<th>Giá</th>
+					<th>Size</th>
+					<th>Số lượng</th>
+					<th>Tổng</th>
+					<th><a href="javascript:void(0)" ng-click="cart.clear()">Xóa tất cả</a></th>
+				</tr>
+				<form action="/cart/update/${item.id}" method="post">
+					<tr ng-repeat="item in cart.items" class="table-product-row">
+						<td style="width: 10px;">{{$index + 1}}</td>
+						<td>{{item.name}}</td>
+						<td><img ng-src="/images/{{item.image}}"></td>
+						<td>{{item.price |currency :"":0}} ₫</td>
+						<td style="width: 85px;">{{item.size}}</td>
+						<td style="width: 85px;">
+							<input type="number" min="1" ng-model="item.qty" ng-keydown="cart.checkEnter($event, item)"
+								spinner-change class="w3-border w3-round">
+
+						</td>
+						<td style="width: 130px;">{{item.price * item.qty | currency :"":0}} ₫</td>
+						<td style="width: 85px;"><i class="fa-solid fa-minus" ng-click="cart.remove(item.id)"></i></td>
+					</tr>
+				</form>
+			</table>
+			<div ng-if="cart.items.length === 0" class="no-result-found">
+				<img src="/images/no-cart-image.png">
+			</div>
+		</div>
+
+		<div class="cart-pay">
+			<form>
+				<p class="w3-center">
+					<b>THÔNG TIN ĐƠN HÀNG</b>
+				</p>
+				<input type="hidden" id="username" th:value="${username}">
+				<p>
+					<label>Số điện thoại</label>
+					<input class="w3-input w3-border w3-round" name="sdt" id="user-sdt" th:value="${phone}"
+						ng-model="order.phoneNumber" required>
+				</p>
+				<p>
+					<label>Địa chỉ nhận hàng</label>
+					<input class="w3-input w3-border w3-round" th:value="${address}" id="user-address"
+						ng-model="order.address" name="diachi" required>
+				</p>
+				<p>
+					<label>Phương thức thanh toán</label>
+					<select class="w3-select w3-border w3-round" name="option" onchange="changePayMethod(this)"
+						id="payment">
+						<option value="1">Thanh toán khi nhận hàng</option>
+						<option value="2">VN Pay</option>
+					</select>
+				</p>
+				<p class="vn-pay">
+					<input type="radio" id="ncb" name="bank" value="NCB" checked>
+					<label for="ncb"><img src="/images/ncb.png" style="width: 70px;"></label>
+					<input type="radio" id="eximbank" name="bank" value="EXIMBANK">
+					<label for="eximbank"><img src="/images/eximbank.png" style="width: 70px;"></label>
+				</p>
+				<div>
+					<b id="total-amount"> Total : {{cart.amount | currency:"":0 }} ₫</b>
+					<button class="pay-button" ng-click="order.purchase()" ng-disabled="cart.amount === 0">Đặt
+						hàng</button>
+				</div>
+			</form>
+		</div>
+	</section>
+	<script>
+		function changePayMethod(e) {
+			if (e.value === '2') {
+				$('.vn-pay').addClass('active');
+			} else {
+				$('.vn-pay').removeClass('active');
+			}
+		}
+	</script>
+</body>
+
+</html>

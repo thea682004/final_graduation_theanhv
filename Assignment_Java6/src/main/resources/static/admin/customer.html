@@ -1,0 +1,37 @@
+<section class="w3-animate-opacity customer-section">
+  <table class="w3-table-all w3-animate-opacity">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Fullname</th>
+        <th>Email</th>
+        <th>Phone number</th>
+        <th>Address</th>
+        <th></th>
+      </tr>
+    </thead>
+    </tbody>
+      <tr ng-repeat="item in pager.items" class="table-product-row">
+        <td>{{$index + 1}}</td>
+        <td>{{item.username}}</td>
+        <td>{{item.password}}</td>
+        <td>{{item.fullname}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.sdt}}</td>
+        <td>{{item.address}}</td>
+        <td><i ng-click="edit(item)" class="fa-solid fa-pen-to-square"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="w3-center admin-product-navigator">
+    <div class="w3-bar">
+      <button class="w3-bar-item" ng-click="pager.first()"><i class="fa-solid fa-backward-step"></i></button>
+      <button class="w3-bar-item" ng-click="pager.prev()"><i class="fa-solid fa-backward-fast"></i></button>
+      <button class="w3-bar-item">{{pager.page+1}} of {{pager.count}}</button>
+      <button class="w3-bar-item" ng-click="pager.next()"><i class="fa-solid fa-forward-fast"></i></button>
+      <button class="w3-bar-item" ng-click="pager.last()"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+  </div>
+</section>

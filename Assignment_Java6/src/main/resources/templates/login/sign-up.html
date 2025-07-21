@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+</head>
+<body>
+    <div class="sign-up-container">
+        <form th:action="@{/login/signup}" th:object="${account}" method="post">
+            <label for="username">Username</label><input type="text" id="username" th:field="*{username}"><br>
+            <label for="password">Password</label><input type="password" th:field="*{password}"><br>
+            <label for="confirm-password">Confirm password</label><input type="password" th:field="*{confirmPassword}"><br>
+            <label for="email">Email</label><input type="text" th:field="*{email}"><br>
+            <label for="full-name">Full name</label><input type="text" th:field="*{fullname}"><br>
+            <label for="phone-number">Phone number</label><input type="text" th:field="*{sdt}"><br>
+            <label for="address">Address</label><input type="text" th:field="*{address}"><br>
+            <button type="submit">Sign up</button>
+            <button type="reset">Reset</button>
+        </form>        
+    </div>
+</body>
+</html>

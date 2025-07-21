@@ -1,0 +1,143 @@
+<section class="w3-animate-opacity">
+	<div class="w3-bar product-button">
+		<button class="w3-bar-item active" id="admin-list-product" ng-click="reset()"> <i class="fa-solid fa-bars"></i>
+			List</button>
+		<button class="w3-bar-item" id="admin-create-product"><i class="fa-solid fa-plus"></i> Product</button>
+	</div>
+	<!-- Tab1 -->
+	<div id="admin-list-product-tab" class="tab-content active-tab">
+		<table class="w3-table-all w3-animate-opacity">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>Picture</th>
+					<th>Name</th>
+					<th>Brand</th>
+					<th>Color</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+			</tbody>
+			<tr ng-repeat="item in pager.items" class="table-product-row">
+				<td>{{$index + 1}}</td>
+				<td><img ng-src="/images/{{item.image}}" style="max-width: 40px;"></td>
+				<td>{{item.name}}</td>
+				<td>{{item.brand.name}}</td>
+				<td>{{item.color.name}}</td>
+				<td>{{ item.price | currency:"":0 }} ₫</td>
+				<td><i ng-click="edit(item)" class="fa-solid fa-pen-to-square"></i></td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="w3-center admin-product-navigator">
+			<div class="w3-bar">
+				<button class="w3-bar-item" ng-click="pager.first()"><i class="fa-solid fa-backward-step"></i></button>
+				<button class="w3-bar-item" ng-click="pager.prev()"><i class="fa-solid fa-backward-fast"></i></button>
+				<button class="w3-bar-item">{{pager.page+1}} of {{pager.count}}</button>
+				<button class="w3-bar-item" ng-click="pager.next()"><i class="fa-solid fa-forward-fast"></i></button>
+				<button class="w3-bar-item" ng-click="pager.last()"><i class="fa-solid fa-forward-step"></i></button>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- EndTab 1 -->
+	<!-- Tab 2 -->
+	<div id="admin-create-product-tab" class="tab-content">
+		<div class=" w3-animate-opacity">
+			<form class="admin-product-container">
+				<div class="product-image">
+					<div class="box">
+						<img ng-src="/images/{{form.image}}"><br>
+						<label for="image">Upload</label>
+						<input type="file" name="file" id="image" accept=".jpg, .jpeg, .png"
+							onchange="angular.element(this).scope().imageChanged(this.files, 'image')" />
+					</div>
+					<div class="box">
+						<img ng-src="/images/{{form.image1}}"><br>
+						<label for="image1">Upload</label>
+						<input type="file" name="file1" id="image1" accept=".jpg, .jpeg, .png"
+							onchange="angular.element(this).scope().imageChanged(this.files, 'image1')" />
+					</div>
+					<div class="box">
+						<img ng-src="/images/{{form.image2}}"><br>
+						<label for="image2">Upload</label>
+						<input type="file" name="file2" id="image2" accept=".jpg, .jpeg, .png"
+							onchange="angular.element(this).scope().imageChanged(this.files, 'image2')" />
+					</div>
+					<div class="box">
+						<img ng-src="/images/{{form.image3}}"><br>
+						<label for="image3">Upload</label>
+						<input type="file" name="file3" id="image3" accept=".jpg, .jpeg, .png"
+							onchange="angular.element(this).scope().imageChanged(this.files, 'image3')" />
+					</div>
+				</div>
+				<div class="product-form">
+					<p>
+						<label>Active<i class="w3-text-red">*</i></label>
+						<select ng-model="form.available" class="w3-select mt-3" required>
+							<option value="" selected disabled>Choose active status</option>
+							<option ng-value="true">Yes</option>
+							<option ng-value="false">No</option>
+						</select>
+					</p>
+					<p>
+						<label>Category<i class="w3-text-red">*</i></label>
+						<select ng-model="form.category.id" class="w3-select mt-3" required>
+							<option value="" selected disabled>Choose category</option>
+							<option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+						</select>
+					</p>
+					<p>
+						<label>Brand<i class="w3-text-red">*</i></label>
+						<select ng-model="form.brand.id" class="w3-select mt-3" required>
+							<option value="" selected disabled>Choose brand</option>
+							<option ng-repeat="b in brands" ng-value="b.id">{{b.name}}</option>
+						</select>
+					</p>
+					<p>
+						<label>Color<i class="w3-text-red">*</i></label>
+						<select ng-model="form.color.id" class="w3-select mt-3" required>
+							<option value="" selected disabled>Choose color</option>
+							<option ng-repeat="color in colors" ng-value="color.id">{{color.name}}</option>
+						</select>
+					</p>
+					<p>
+						<label>Name<i class="w3-text-red">*</i></label> <input ng-model="form.name" class="w3-input" type="text"
+							required>
+					</p>
+					<p>
+						<label>Price<i class="w3-text-red">*</i></label>
+						<input ng-model="form.price" class="w3-input" type="number" value="0" required>
+					</p>
+					<div class="product-size grid grid-cols-5 gap-4">
+						<div ng-repeat="size in productSizes">
+							<label>{{ size.size }}</label>
+							<input ng-model="size.quantity" class="w3-input" type="number" min="0">
+						</div>
+					</div>					
+					<p>
+						<label>Description<i class="w3-text-red">*</i></label>
+						<textarea ng-model="form.description" class="w3-input" rows="5" required></textarea>
+					</p>
+					<p>
+						<button ng-click="create()" class="w3-button common-button">Create</button>
+						<button ng-click="update()" class="w3-button common-button">Update</button>
+						<a class="w3-button common-button btn-delete-product">Delete</a>
+						<button ng-click="reset()" class="w3-button common-button">Reset</button>
+					</p>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!----------------------------------->
+	<div id="confirm" class="w3-modal">
+		<div class="w3-animate-top confirm-modal">
+			<i class="fa fa-remove w3-right cancel-delete-btn"></i>
+			<p>Are you sure?</p>
+			<button ng-click="delete(form)" class="w3-button w3-red w3-margin-bottom cancel-delete-btn">Delete</button>
+			<button type="button" class="w3-button common-button w3-margin-bottom cancel-delete-btn">Cancel</button>
+		</div>
+	</div>
+</section>

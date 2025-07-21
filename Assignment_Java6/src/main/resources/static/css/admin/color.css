@@ -1,0 +1,91 @@
+#color-section{
+  margin-top: 15px;
+}
+
+.color-section{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+}
+
+.admin-color-card {
+  background-color: #fff;
+  padding: 15px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: relative;
+  height: 130px;
+  margin-top: 70px;
+}
+
+.admin-color-card > .card-body {
+  border: #ccc 1px solid;
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  width: 130px;
+  height: 130px;
+  margin: 0 auto;
+  top: -5px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.admin-color-card > .card-body > strong{
+  display: block;
+  margin-top: 55px;
+  text-align: center;
+  color: #fff;
+}
+
+.admin-color-card > .card-footer{
+  position: absolute;
+  bottom: 10px;
+  width: 210px;
+}
+
+.admin-color-card > .card-footer > span i:hover{
+  color: var(--primary-color);
+}
+
+.admin-color-card > .card-footer > span i{
+  cursor: pointer;
+  color: var(--primary-color);
+  float: right;
+  margin-top: 4px;
+}
+
+.color-title {
+  margin-left: 10px;
+}
+
+.form-add-color {
+  padding-bottom: 15px;
+  border-bottom: #ccc solid .5px;
+}
+
+.color-name {
+  width: 30%;
+  height: 32px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.color-button {
+  height: 30px;
+  width: 60px;
+  color: #fff;
+  border: none;
+  background-color: var(--secondary-color);
+}
+
+.color-navigator {
+  margin-top: 10px;
+}
+
+.color-navigator > div > button {
+  cursor: pointer;
+}
+

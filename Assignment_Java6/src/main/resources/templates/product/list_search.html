@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product</title>
+</head>
+
+<body>
+  <div class="list-section">
+    <form class="box-left" th:action="@{|/product/filter|}" method="get">
+      <div>
+        <h5><i class="fa-solid fa-filter fa-sm"></i> BỘ LỌC TÌM KIẾM</h5>
+      </div>
+      <div class="filter-title">
+        <span>Khoảng giá </span><i class='bx bxs-down-arrow'></i>
+      </div>
+      <div class="filter-section active">
+        <div class="filter-content">
+          <div class="container range-price-content">
+            <div id="slider-range"></div>
+            <div class="slider-labels">
+              <span id="slider-range-value1"></span>
+              <span id="slider-range-value2"></span>
+            </div>
+            <input type="hidden" name="fromPrice" value="" class="fromPrice">
+            <input type="hidden" name="toPrice" value="" class="toPrice">
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-title">
+        <span>Loại hàng</span><i class='bx bxs-down-arrow'></i>
+      </div>
+      <div class="filter-section active">
+        <div class="filter-content" th:each="category: ${categoryCounts}">
+          <div>
+            <input type="checkbox" name="categoryIds" th:id="${category.key.id}" th:value="${category.key.id}">
+            <label th:for="${category.key.id}">
+              [[${category.key.name}]]
+            </label>
+          </div>
+          <span>([[${category.value}]])</span>
+        </div>
+      </div>
+
+      <button class="search-button">Tìm kiếm</button>
+    </form>
+    <div class="box-right">
+      <h5 class="result-title"><i class="fa-regular fa-lightbulb fa-sm"></i> KẾT QUẢ TÌM KIẾM CHO "[[${cname}]]"</h5>
+      <div class="search-option">
+        <form th:action="@{|/product/search|}" method="post">
+          <input name="name" placeholder="Nhập tên sản phẩm..">
+          <button>Tìm kiếm</button>
+        </form>
+        <select onchange="location = this.value;">
+          <option value="" selected disabled>Sắp xếp</option>
+          <option
+            th:value="@{|/product/search?sortType=desc&pageNo=${page.number + 1}${name != null ? '&amp;name=' + name : ''}|}">
+            Giá giảm dần</a></option>
+          <option
+            th:value="@{|/product/search?sortType=asc&pageNo=${page.number + 1}${name != null ? '&amp;name=' + name : ''}|}">
+            Giá tăng dần</a></option>
+        </select>
+      </div>
+      <div class="product-item" th:if="${not #lists.isEmpty(page.content)}">
+        <div class="item" th:each="item: ${page.content}">
+          <a th:href="@{|/product/${item.id}|}"><img th:src="@{|/images/${item.image}|}" loading="lazy"></a>
+          <div class="product-title">[[${item.name}]] - [[${item.color.name}]]</div>
+          <div class="product-price">
+            <span>[[${@moneyFormatter.formatVND(item.price)}]]</span>
+            <div class="cart-hover-box">
+              <i class="fa-solid fa-cart-plus"></i>
+              <div class="cart-hover" th:item-size-id="${item.id}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="no-result-found" th:if="${#lists.isEmpty(page.content)}"><img
+          th:src="@{|/images/no-product-found.jpg|}"></div>
+
+      <div th:if="${page.totalPages > 1}">
+        <ul class="pagination">
+          <li th:class="${page.number + 1 == 1 ? 'page-item disabled' : 'page-item'}">
+            <a th:href="@{|/product/search?pageNo=1${name != null ? '&amp;name=' + name : ''}${sortType != null ? '&amp;sortType=' + sortType : ''}|}"
+              class="page-link">First</a>
+          </li>
+          <li th:class="${page.hasPrevious() ? 'page-item' : 'page-item disabled'}">
+            <a th:href="@{|/product/search?pageNo=${page.number}${name != null ? '&amp;name=' + name : ''}${sortType != null ? '&amp;sortType=' + sortType : ''}|}"
+              class="page-link">Previous</a>
+          </li>
+          <li th:each="pageNum : ${#numbers.sequence(1  , page.totalPages)}"
+            th:class="${page.number == pageNum - 1 ? 'page-item active' : 'page-item'}">
+            <a th:href="@{|/product/search?pageNo=${pageNum}${name != null ? '&amp;name=' + name : ''}${sortType != null ? '&amp;sortType=' + sortType : ''}|}"
+              class="page-link" th:text="${pageNum}"></a>
+          </li>
+          <li th:class="${page.hasNext() ? 'page-item' : 'page-item disabled'}">
+            <a th:href="@{|/product/search?pageNo=${page.number + 2}${name != null ? '&amp;name=' + name : ''}${sortType != null ? '&amp;sortType=' + sortType : ''}|}"
+              class="page-link">Next</a>
+          </li>
+          <li th:class="${page.number + 1 == page.totalPages ? 'page-item disabled' : 'page-item'}">
+            <a th:href="@{|/product/search?pageNo=${page.totalPages}${name != null ? '&amp;name=' + name : ''}${sortType != null ? '&amp;sortType=' + sortType : ''}|}"
+              class="page-link">Last</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <script th:src="@{|/js/list.js|}"></script>
+</body>
+
+</html>

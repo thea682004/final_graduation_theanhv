@@ -1,0 +1,592 @@
+* {
+	font-family: "Montserrat", sans-serif;
+	font-size: 13px;
+}
+
+:root {
+	--primary-color: #EBD96B;
+	--secondary-color: #383c44;
+	--admin-background: #efeff4;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+main {
+	flex: 1;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+.main-banner {
+	width: 100%;
+	height: auto;
+	display: block;
+	filter: brightness(50%);
+	/* giảm sáng 50% */
+}
+
+.home-nav {
+	padding: 20px 50px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #ffffff;
+	border-bottom: 1px solid #eaeaea;
+	position: sticky;
+	top: 0;
+	z-index: 100;
+}
+
+.home-nav>.menu {
+	display: flex;
+	gap: 30px;
+}
+
+.home-nav>.menu a {
+	text-decoration: none;
+	color: #111111;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 1px;
+	transition: color 0.3s ease;
+}
+
+.home-nav>.menu a:hover {
+	color: #d80c18;
+	/* Accent red like Converse buy CTA buttons */
+}
+
+/* Brand section styled like Converse campaign banners */
+.home-brand {
+	margin: 40px auto;
+	border-radius: 0;
+	background-color: #f5f5f5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 60px 20px;
+	max-width: 1200px;
+	text-align: center;
+}
+
+.home-brand img {
+	max-width: 200px;
+}
+
+.register-container {
+	margin: 20px 160px;
+	background-color: #EBD96B;
+	border-radius: 20px;
+	padding: 100px 50px;
+	text-align: center;
+	color: #383c44;
+}
+
+.register-container input {
+	padding: 10px;
+	border-radius: 10px;
+	width: 500px;
+	height: 50px;
+	border: none;
+	font-size: 16px;
+}
+
+.form-register {
+	margin-top: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+
+.form-register button {
+	height: 50px;
+}
+
+.main-menu {
+	color: #2B2320;
+	background-color: #BFC3CF;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+	top: 0;
+	font-size: larger;
+}
+
+.home-brand img {
+	width: 100px;
+}
+
+.new-arrival {
+	display: flex;
+	justify-content: space-around;
+	padding: 10px 160px;
+	gap: 40px;
+	text-align: center;
+}
+
+.new-arrival-title {
+	font-size: 24px;
+	margin-left: 159px;
+	margin-top: 20px;
+	display: block;
+}
+
+.new-featured-title {
+	font-size: 24px;
+	margin-left: 135px;
+	margin-top: 20px;
+	display: block;
+}
+
+
+
+.top-card-title {
+	padding: 10px 0;
+}
+
+.top-link {
+	text-decoration: none;
+	color: #383c44;
+}
+
+.home-footer {
+	display: flex;
+	justify-content: space-around;
+	background-color: black;
+	color: gray;
+	padding: 20px;
+}
+
+.home-footer a {
+	text-decoration: none;
+	color: gray;
+}
+
+.home-footer a:hover {
+	color: var(--primary-color);
+}
+
+.main-banner {
+	width: 100%;
+}
+
+/* Style the dropdown button */
+.dropbtn-home {
+	cursor: pointer;
+}
+
+.dropbtn-home:hover {
+	color: var(--primary-color);
+}
+
+.dropdown-home {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content-home {
+	display: none;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 140px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content-home a {
+	color: black;
+	padding: 10px 10px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-content-home a:hover {
+	background-color: #f1f1f1;
+}
+
+.dropdown-home:hover .dropdown-content-home {
+	display: block;
+}
+
+.cart-relative {
+	position: relative;
+}
+
+.cart-relative>span {
+	position: absolute;
+	top: -9.5px;
+	color: #D80C18;
+	font-weight: 900;
+}
+
+/* Style the dropdown button user */
+.dropbtn-user {
+	cursor: pointer;
+}
+
+.dropbtn-user i {
+	width: 40px;
+	text-align: center;
+}
+
+.dropbtn-user:hover {
+	color: var(--primary-color);
+}
+
+.dropdown-user {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content-user {
+	display: none;
+	position: absolute;
+	right: 0;
+	top: 17px;
+	background-color: #f9f9f9;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content-user a {
+	color: black;
+	padding: 10px 10px;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.dropdown-content-user a:hover {
+	background-color: #f1f1f1;
+}
+
+.dropdown-user:hover .dropdown-content-user {
+	display: block;
+}
+
+.user-container {
+	margin: 20px 300px;
+	padding: 20px;
+	border-radius: 5px;
+}
+
+.user-container button {
+	float: right;
+}
+
+.user-container h2 {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.info-container {
+	background: url('/images/info-image.png') no-repeat center center/cover;
+	padding: 20px 250px;
+	line-height: 2.0;
+	font-weight: bold;
+	/* text-shadow: 3px 3px 5px hsla(0, 0%, 0%, 0.75); */
+}
+
+.info-background {
+	backdrop-filter: blur(5px);
+}
+
+:root {
+	--primary-color: #000;
+	/* Black */
+	--secondary-color: #fff;
+	/* White */
+	--accent-color: #e31c23;
+	/* Red accent (Converse/Nike style) */
+	--gray-light: #f5f5f5;
+	--gray-dark: #333;
+	--bg-dark: #111;
+}
+
+body {
+	margin: 0;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
+	line-height: 1.6;
+}
+
+/* Hero banner */
+.hero-banner {
+	position: relative;
+	width: 100%;
+	height: 500px;
+	/* hoặc auto nếu muốn giữ tỉ lệ ảnh */
+	overflow: hidden;
+}
+
+.hero-banner .main-banner {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* phủ đầy khung */
+	filter: brightness(50%);
+	/* làm tối ảnh để chữ nổi bật */
+}
+
+.hero-banner .banner-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #fff;
+	text-align: center;
+}
+
+.hero-banner .banner-text h1 {
+	font-size: 36px;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.hero-banner {
+	position: relative;
+	width: 100%;
+	height: 500px;
+	/* hoặc auto nếu muốn giữ tỉ lệ ảnh */
+	overflow: hidden;
+}
+
+.hero-banner .main-banner {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* phủ đầy khung */
+	filter: brightness(50%);
+	/* làm tối ảnh để chữ nổi bật */
+}
+
+.hero-banner .banner-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: #fff;
+	text-align: center;
+}
+
+.hero-banner .banner-text h1 {
+	font-size: 36px;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+}
+
+.hero-banner .banner-text a.btn-primary {
+	background-color: var(--primary-color);
+	/* sử dụng màu chính của bạn */
+	color: #fff;
+	padding: 12px 30px;
+	text-decoration: none;
+	border-radius: 30px;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.hero-banner .banner-text a.btn-primary:hover {
+	background-color: var(--accent-color);
+}
+
+.btn-primary {
+	border: none !important;
+}
+
+/* Home brand logos */
+.home-brand {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 40px;
+	background-color: var(--bg-dark);
+	padding: 30px 0;
+	flex-wrap: wrap;
+}
+
+.home-brand img {
+	width: 80px;
+	filter: brightness(0) invert(1);
+	opacity: 0.8;
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.home-brand img:hover {
+	opacity: 1;
+	transform: scale(1.1);
+}
+
+/* Section titles */
+.section-title {
+  text-align: center;
+  font-size: 45px;
+  margin: 50px 0 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  background: linear-gradient(120deg, #c7c7c7 0%, #ff0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Product grid */
+.product-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 30px;
+	max-width: 1200px;
+	margin: 0 auto 50px;
+	padding: 0 20px;
+}
+
+.product-card {
+	background-color: var(--bg-dark);
+	border-radius: 10px;
+	overflow: hidden;
+	text-align: center;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.product-card img {
+	width: 100%;
+	height: 200px;
+	object-fit: contain;
+	background-color: var(--secondary-color);
+}
+
+.product-card h5 {
+	margin: 10px 0 5px;
+	font-size: 16px;
+}
+
+.product-card a {
+	color: white;
+	text-decoration: none;
+	display: block;
+}
+
+.product-card a:hover {
+	color: white;
+	/* giữ màu trắng khi hover */
+}
+
+.product-card h5 {
+	margin: 10px 0 5px;
+	font-size: 17px;
+	color: white;
+	/* chữ tiêu đề trắng */
+}
+
+.product-card .price {
+	color: white;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 10px;
+}
+
+/* Featured categories */
+.category-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 30px;
+	max-width: 1200px;
+	margin: 0 auto 50px;
+	padding: 0 20px;
+}
+
+.category-card {
+	position: relative;
+	overflow: hidden;
+	border-radius: 10px;
+	text-align: center;
+}
+
+.category-card img {
+	width: 100%;
+	height: 250px;
+	object-fit: cover;
+	opacity: 0.8;
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.category-card h5 {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	right: 0;
+	color: var(--secondary-color);
+	font-size: 18px;
+	font-weight: bold;
+	background-color: rgba(0, 0, 0, 0.6);
+	padding: 10px;
+}
+
+.category-card:hover img {
+	opacity: 1;
+	transform: scale(1.05);
+}
+
+/* Newsletter */
+.newsletter {
+	background-color: var(--accent-color);
+	text-align: center;
+	padding: 50px 20px;
+	color: var(--secondary-color);
+}
+
+.newsletter h2 {
+	font-size: 28px;
+	margin-bottom: 10px;
+}
+
+.newsletter p {
+	margin-bottom: 20px;
+}
+
+.newsletter-form {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.newsletter-form input {
+	padding: 10px;
+	border: none;
+	border-radius: 5px;
+	width: 250px;
+	max-width: 80%;
+}
+
+.newsletter-form button {
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
+	border: none;
+	padding: 10px 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.newsletter-form button:hover {
+	background-color: var(--gray-dark);
+}

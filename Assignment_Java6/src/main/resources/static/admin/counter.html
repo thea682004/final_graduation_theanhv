@@ -1,0 +1,178 @@
+<section class="w3-animate-opacity" id="counter-section">
+	<div class="counter-container">
+		<div class="counter-content">
+			<!-- Left: Cart -->
+			<div class="counter-left">
+				<div class="pending-orders-tabbar">
+					<div class="tab-container">
+						<div class="tab-scroll-container">
+							<div class="tab" ng-repeat="order in pendingOrders"
+								ng-class="{'active': selectedOrder && selectedOrder.id === order.id}"
+								ng-click="selectOrder(order)">
+								HD #{{order.id}}
+								<span class="close-tab"
+									ng-click="removePendingOrder(order.id); $event.stopPropagation();">&times;</span>
+							</div>
+						</div>
+
+						<div class="tab add-tab fixed-add-tab" ng-click="createNewOrder()"
+							ng-class="{'disabled': pendingOrders.length >= 5}">
+							Add Order
+						</div>
+					</div>
+				</div>
+
+				<div id="counter" class="counter-tab-content active">
+					<div class="table-responsive counter-table">
+						<table class="w3-table-all">
+							<tr class="w3-2021-inkwell">
+								<th>No.</th>
+								<th>IMG</th>
+								<th>Name</th>
+								<th>Price</th>
+								<th>Size</th>
+								<th>Qty</th>
+								<th>Total</th>
+								<th><a href="javascript:void(0)" ng-click="clearCart()">Del</a></th>
+							</tr>
+							<form action="/cart/update/${item.id}" method="post">
+								<tr ng-repeat="item in cart.items track by (item.id + '-' + item.size)"
+									class="table-product-row" ng-disabled="!selectedOrder">
+									<td style="width: 10px;">{{$index + 1}}</td>
+									<td><img ng-src="/images/{{item.image}}"></td>
+									<td>{{item.name}} - {{item.color.name}}</td>
+									<td style="width: 85px;">{{item.price | currency: "₫ ":0 }}</td>
+									<td style="width: 65px;">{{item.size}}</td>
+									<td style="width: 65px;">
+										<input ng-model="item.inputQty" class="w3-border w3-round" type="number" min="1"
+											step="1" ng-change="updateItemQty(item)">
+									</td>
+									<td style="width: 130px;">{{item.price * item.qty | currency: "₫ ": 0 }}</td>
+									<td style="width: 50px;"><i class="fa-solid fa-minus"
+											ng-click="removeItemFromCart(item)"></i></td>
+								</tr>
+								<tr ng-if="cart.items.length > 0">
+									<td colspan="6" style="text-align: right; font-weight: bold;">Total:</td>
+									<td colspan="2" style="font-weight: bold; color: #28a745;">
+										{{ getCartTotal() | currency: "₫ ":0 }}
+									</td>
+								</tr>
+							</form>
+						</table>
+						<div ng-if="cart.items.length === 0" class="no-result-found">
+							<img src="/images/no-cart-image.png">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Right: Product List -->
+			<div class="counter-right">
+				<div class="search-bar">
+					<input ng-model="searchText" placeholder="Search by name, code, size, brand...">
+				</div>
+				<div class="product-item">
+					<div class="item" ng-repeat="item in pager.items">
+						<a ng-href="#!/counter/{{item.id}}">
+							<img ng-src="/images/{{item.image}}" alt="{{item.name}}" loading="lazy">
+						</a>
+						<div class="product-title">
+							{{item.name}} - {{item.color.name}}
+						</div>
+						<div class="product-price">
+							<span>{{item.price | currency:"":0}} ₫</span>
+							<div class="cart-hover-box" ng-mouseenter="loadSizes(item)">
+								<i class="fa-solid fa-cart-plus"></i>
+								<div class="cart-hover" ng-if="item.sizes">
+									<ul>
+										<li ng-repeat="s in item.sizes"
+											ng-click="selectedOrder && s.quantity > 0 && addToCart(item.id, s.size, 1)"
+											ng-style="{
+                    'cursor': !selectedOrder || s.quantity === 0 ? 'not-allowed' : 'pointer',
+                    'color': s.quantity === 0 ? '#999' : '#000'
+                }" ng-class="{'disabled-size': s.quantity === 0 || !selectedOrder}">
+											Size {{s.size}} ({{s.quantity}} left)
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="w3-center admin-product-navigator pagination">
+				<div class="w3-bar">
+					<button class="w3-bar-item" ng-click="pager.first()"><i
+							class="fa-solid fa-backward-step"></i></button>
+					<button class="w3-bar-item" ng-click="pager.prev()"><i
+							class="fa-solid fa-backward-fast"></i></button>
+					<button class="w3-bar-item">{{pager.page+1}} of {{pager.totalPages}}</button>
+					<button class="w3-bar-item" ng-click="pager.next()"><i
+							class="fa-solid fa-forward-fast"></i></button>
+					<button class="w3-bar-item" ng-click="pager.last()"><i
+							class="fa-solid fa-forward-step"></i></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Footer: Order Info -->
+	<div class="counter-footer">
+		<div class="counter-footer-column">
+			<label>Customer Search</label>
+			<div class="counter-customer-search">
+				<input class="counter-input" type="text" placeholder="Search customer...">
+				<button class="counter-button" ng-click="quickAddCustomer()">Quick Add</button>
+			</div>
+			<p>Selected: None</p>
+		</div>
+		<div class="counter-footer-column">
+			<label>Discount Code</label>
+			<select class="counter-select">
+				<option value="none">None</option>
+				<option value="discount10">10% Off</option>
+			</select>
+			<label>Payment Method</label>
+			<select class="counter-select">
+				<option value="cash">Cash</option>
+				<option value="card">Transfer</option>
+			</select>
+
+		</div>
+
+		<div class="counter-footer-column">
+			<div style="display: flex; gap: 20px; align-items: center;">
+				<div style="flex: 1;">
+					<label>Money Given</label>
+					<input class="counter-input" type="number" placeholder="0.00" ng-model="moneyGiven"
+						ng-change="updateChange()">
+				</div>
+				<div style="flex: 1;">
+					<p><strong>Change:</strong> {{ change | currency: "₫ ":0 }}</p>
+					<p><strong>Total Payment:</strong> {{ getCartTotal() | currency: "₫ ":0 }}</p>
+				</div>
+			</div>
+			<div class="counter-payment-buttons">
+				<button class="counter-button">Payment</button>
+				<button class="counter-button counter-button-secondary">Print Invoice</button>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<script>
+		// Handle quick customer add
+		function quickAddCustomer() {
+			// Here, you will add the logic for quickly adding a customer.
+			alert('Quick add customer function triggered!');
+			// Call your backend API to add customer data here or any other action
+		}
+
+		function showTab(id) {
+			document.querySelectorAll('.counter-tab-content').forEach(tab => tab.classList.remove('active'));
+			document.querySelectorAll('.counter-tab-button').forEach(btn => btn.classList.remove('active'));
+			document.getElementById(id).classList.add('active');
+			document.querySelector(`.counter-tab-button[onclick="showTab('${id}')"]`).classList.add('active');
+		}
+	</script>
+</section>

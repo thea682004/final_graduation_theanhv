@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My profile</title>
+</head>
+
+<body>
+  <form class="w3-container w3-light-grey user-container">
+    <h2>Hồ sơ của tôi</h2>
+    <input type="hidden" id="user-profile" th:value="${username}">
+    <p>
+      <label>Họ và tên</label>
+      <input class="w3-input w3-border w3-round-large" name="last" type="text" ng-model="userHome.fullname">
+    </p>
+    <p>
+      <label>Email</label>
+      <input class="w3-input w3-border w3-round-large" name="last" type="email" ng-model="userHome.email">
+    </p>
+    <p>
+      <label>Số điện thoại</label>
+      <input class="w3-input w3-border w3-round-large" name="last" type="tel" ng-model="userHome.sdt">
+    </p>
+    <p>
+      <label>Địa chỉ</label>
+      <input class="w3-input w3-border w3-round-large" name="last" type="text" ng-model="userHome.address">
+    </p>
+    <p>
+      <label>Password <i class="fa-regular fa-eye-slash" id="eyeIcon"></i></label>
+      <input class="w3-input w3-border w3-round-large" name="last" type="password" id="passwordField"
+        ng-model="userHome.password">
+    </p>
+    <p>
+      <button class="w3-btn w3-round-large w3-green" ng-click="updateUser()">Cập nhật</button>
+    </p>
+  </form>
+
+  <script>
+    $(document).ready(function () {
+      $('#eyeIcon').click(function () {
+        var passwordField = $('#passwordField');
+        var eyeIcon = $(this);
+        if (passwordField.attr('type') === 'password') {
+          passwordField.attr('type', 'text');
+          eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+        } else {
+          passwordField.attr('type', 'password');
+          eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

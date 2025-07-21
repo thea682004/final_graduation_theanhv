@@ -1,0 +1,88 @@
+<section class="w3-animate-opacity customer-section">
+	<div class="order-filter">
+		<input type="number" id="order_id" placeholder="Enter orderId...">
+		<button ng-click="findOrder()">Find</button>
+	</div>
+
+	<div ng-if="!pager.items || pager.items.length === 0">
+		<p class="w3-text-red">No order found!</p>
+	</div>
+	<table class="w3-table-all w3-animate-opacity" ng-if="pager.items.length > 0">
+		<thead>
+			<tr>
+				<th>No.</th>
+				<th>Username</th>
+				<th>Order date</th>
+				<th>Total amount</th>
+				<th>Payment</th>
+				<th>Phone number</th>
+				<th>Address</th>
+				<th>Status</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		</tbody>
+		<tr ng-repeat="item in pager.items" class="table-product-row detail-row">
+			<td>{{item.id}}</td>
+			<td>{{item.account.username}}</td>
+			<td>{{item.createDate}}</td>
+			<td>{{item.totalAmount | currency:"":0}} ₫</td>
+			<td>{{item.pay ? 'Paid' : 'Not Paid'}}</td>
+			<td>{{item.phoneNumber}}</td>
+			<td>{{item.address}}</td>
+			<td class="order-status">
+				<span ng-class="item.status">{{item.status}}</span>
+			</td>
+			<td>
+				<button ng-click="updateStatus(item)" ng-disabled="item.status === 'completed' || item.status === 'cancel'">
+					<i class="fa-solid fa-rotate"></i>
+				</button>
+				<button ng-click="cancelOrder(item)" ng-disabled="item.status === 'delivering' || item.status === 'completed' || item.status === 'cancel'">Cancel</button>
+			</td>
+			<td><i class="fa-solid fa-info" ng-click="info(item)"></i></td>
+		</tr>
+		</tbody>
+	</table>
+	<div class="w3-center admin-product-navigator" ng-if="pager.items.length > 0">
+		<div class="w3-bar">
+			<button class="w3-bar-item" ng-click="pager.first()"><i class="fa-solid fa-backward-step"></i></button>
+			<button class="w3-bar-item" ng-click="pager.prev()"><i class="fa-solid fa-backward-fast"></i></button>
+			<button class="w3-bar-item">{{pager.page+1}} of {{pager.count}}</button>
+			<button class="w3-bar-item" ng-click="pager.next()"><i class="fa-solid fa-forward-fast"></i></button>
+			<button class="w3-bar-item" ng-click="pager.last()"><i class="fa-solid fa-forward-step"></i></button>
+		</div>
+	</div>
+</section>
+
+
+<!----Modal detai order-->
+<div class="w3-modal order-detail-section">
+	<div class="w3-modal-content w3-animate-left order-detail-box">
+		<i class="fa-solid fa-xmark" ng-click="closeDetail()"></i>
+		<table class="w3-table-all">
+			<thead>
+				<tr>
+					<th>No.</th>
+					<th>Picture</th>
+					<th>Name</th>
+					<th>Size</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			</tbody>
+			<tr ng-repeat="item in detail" class="table-product-row">
+				<td>{{$index + 1}}</td>
+				<td><img ng-src="/images/{{item.product.image}}" style="max-width: 40px;"></td>
+				<td>{{item.product.name}}</td>
+				<td>{{item.size}}</td>
+				<td>{{item.product.price | currency: "":0}} ₫</td>
+				<td>{{item.quantity}}</td>
+				<td>{{(item.quantity * item.product.price) | currency: "":0}} ₫</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

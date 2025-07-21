@@ -1,0 +1,120 @@
+.table-product-row > td {
+  vertical-align: middle;
+}
+
+.active-tab {
+  display: block !important;
+  border-bottom: none !important;
+}
+
+.tab-content {
+  display: none;
+}
+
+.admin-product-navigator > div > button {
+  cursor: pointer;
+}
+
+.product-button {
+  border-bottom: 1px solid;
+}
+
+.product-button > button {
+  cursor: pointer;
+}
+
+.product-button> .active {
+  background-color: #ccc;
+}
+
+.product-form {
+  width: 500px;
+}
+
+.product-image {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 40%;
+}
+
+.product-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.product-image > .box {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+.product-image input{
+  display: none;
+}
+
+.product-image label{
+  display: block;
+  width: 70px;
+  margin-left: 40px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.product-size {
+  display: flex;
+  gap: 15px;
+}
+
+.product-image img {
+  border-radius: 10%;
+  width: 150px;
+}
+
+
+.admin-product-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-form {
+  width: 50%;
+}
+
+.product-image img {
+  border-radius: 10%;
+}
+
+.product-image input {
+  margin-top: 10px;
+}
+
+.fa-pen-to-square{
+  cursor: pointer;
+}
+
+.fa-pen-to-square:hover {
+  color: var(--primary-color);
+}
+
+#admin-list-product-tab {
+  padding: 20px;
+}
+
+.confirm-modal{
+  width: 350px;
+  background-color: #fff;
+  margin: 0 auto;
+  text-align: center;
+  padding: 15px;
+}
+
+.confirm-modal > i {
+  cursor: pointer;
+}

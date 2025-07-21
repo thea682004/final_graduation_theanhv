@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="/Assignment_Java6/src/main/resources/static/css/styleProduct.css">
+    <!-- Link Icon -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Link Js -->
+    <script src="/Assignment_Java6/src/main/resources/static/js/admin/product.js"></script>
+</head>
+
+<body>
+    <div class="Product-box">
+        <div class="box-left">
+            <div id="box1" class="toggle-box collapsed" onclick="toggleVisibility('box1')">
+                <div class="title">
+                    <p>Giới Tính <span><i class='bx bxs-down-arrow'></i></span></p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="male">
+                    <label for="male">Nam</label>
+                    <p>(100)</p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="female">
+                    <label for="male">Nữ</label>
+                    <p>(100)</p>
+                </div>
+            </div>
+            <div id="box2" class="toggle-box collapsed" onclick="toggleVisibility('box2')">
+                <div class="title">
+                    <p>Loại Sản Phẩm <span><i class='bx bxs-down-arrow'></i></span></p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="male">
+                    <label for="male">Áo</label>
+                    <p>(100)</p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="female">
+                    <label for="male">Quần</label>
+                    <p>(100)</p>
+                </div>
+            </div>
+            <div id="box3" class="toggle-box collapsed" onclick="toggleVisibility('box3')">
+                <div class="title">
+                    <p>Màu Sắc <span><i class='bx bxs-down-arrow'></i></span></p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="male">
+                    <label for="male">Trắng</label>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="female">
+                    <label for="male">Đen</label>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="female">
+                    <label for="male">Đỏ</label>
+                </div>
+            </div>
+            <div id="box4" class="toggle-box collapsed" onclick="toggleVisibility('box4')">
+                <div class="title">
+                    <p>Giá <span><i class='bx bxs-down-arrow'></i></span></p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="male">
+                    <label for="male">Dưới 500.000đ</label>
+                    <p>(100)</p>
+                </div>
+                <div class="sex">
+                    <input type="checkbox" name="gender" class="female">
+                    <label for="male">500.000đ - 1.000.000đ</label>
+                    <p>(100)</p>
+                </div>
+            </div>
+        </div>
+        <div class="box-right ">
+            <div class="search-box">
+                <input name="search" id="searchInput" placeholder="Tìm kiếm sản phẩm trong trang này">
+                <button id="searchButton" type="submit"><i class='bx bx-search-alt-2'></i></button>
+            </div>
+            <div class="Box-item">
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/img/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+                <div class="item">
+                    <div class="image-container">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img8.jpg" alt="" class="main-image" onmouseover="showSecondImage(this)"
+                            onmouseout="hideSecondImage(this)">
+                        <img src="/Assignment_Java6/src/main/resources/static/images/product/img3.jpg" alt="" class="second-image" style="display: none;">
+                    </div>
+                    <p class="brand">Nike</p>
+                    <p class="price">4.399.000đ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

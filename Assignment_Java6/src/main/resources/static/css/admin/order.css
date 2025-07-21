@@ -1,0 +1,78 @@
+.fa-info{
+  padding: 10px;
+}
+.fa-info:hover {
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.order-detail-section{
+  display: none;
+}
+
+.order-detail-section.active{
+  display: block;
+}
+
+.fa-xmark{
+  display: block;
+  float: right;
+  padding: 10px;
+}
+
+.fa-xmark:hover{
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.order-status > span {
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+
+.order-status > .confirmed{
+  background-color: var(--primary-color);
+}
+
+
+.order-status > .delivering{
+  background-color: #345DBB;
+  color: #fff;
+}
+
+.order-status > .completed{
+  background-color: #66cdaa;
+}
+
+.order-status > .cancel{
+  background-color: #D7263D;
+  color: #fff;
+}
+
+
+.order-filter {
+  display: flex;
+  gap: 10px;
+  height: 40px;
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.order-filter input {
+  padding: 10px;
+  border: none;
+  width: 200px;
+  border-radius: 5px;
+}
+
+.order-filter button {
+  border-radius: 5px;
+  background-color: #345DBB;
+  color: #fff;
+  transition: 0.4;
+  cursor: pointer;
+  width: 80px;
+  border: none;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav>
+		<a th:href="@{/home/index}">[(#{home})]</a> <a
+			th:href="@{/home/about}" th:text="#{about}"></a> <a
+			th:href="@{/home/contact}" th:text="#{contact}"></a> <a
+			th:href="@{/home/form}" th:text="#{form}"></a> [<a href="?lang=vi">Tiếng
+			Việt</a>] [<a href="?lang=en">English</a>]
+	</nav>
+	
+	<div th:fragment="navbar">
+		<div class="home-nav main-menu">
+			<div class="logo">
+				<a href="/"><img src="/images/logo.png" alt="" style="width: 50px; margin-right: 50px;"></a>
+				<strong sec:authorize="isAuthenticated()">Hi, <span style="margin-right: 15px;" th:text="${name}"></span><i class="fa-solid fa-hands-clapping"></i></strong>
+			</div>
+
+			<div class="menu">
+				<a href="/">Trang chủ</a>
+				<div class="dropdown-home">
+					<a class="dropbtn-home" href="/product/list">Sản Phẩm</a>
+					<div class="dropdown-content-home">
+						<a th:each="c:${cates}" th:href="@{|/product/list?cid=${c.id}|}">[[${c.name}]]</a>
+					</div>
+				</div>
+				<a href="/cart/view" class="cart-relative">Giỏ hàng <span>({{cart.count}})</span></a>
+				<a sec:authorize="!isAuthenticated()" href="/login/form"><i class="fa-regular fa-user"></i>  Đăng Nhập/Đăng kí</a>
+				<div class="dropdown-user" sec:authorize="isAuthenticated()">
+					<a class="dropbtn-user"><i class="fa-solid fa-user-tie"></i></a>
+					<div class="dropdown-content-user">
+						<a sec:authorize="isAuthenticated()" href="/order/list"><i class="fa-solid fa-bag-shopping"></i>  Đơn hàng</a>
+						<a sec:authorize="isAuthenticated()" href="/my-profile"><i class="fa-regular fa-id-card"></i>  Hồ sơ</a>
+						<a sec:authorize="hasAnyRole('STAF','DIRE')" href="/admin"><i class="fa-solid fa-bars-progress"></i>  Admin</a>
+						<a sec:authorize="isAuthenticated()" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>  Đăng xuất</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

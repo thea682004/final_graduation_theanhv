@@ -1,0 +1,68 @@
+<div class="dashboard-section w3-animate-opacity">
+  <h4 class="dashboard-title">Sales overview</h4>
+  <div class="overview-container">
+    <div class="left-content">
+      <div class="overview-box">
+        <p>
+          <i class="fa-solid fa-scroll"></i>
+          <span class="overview-title">Total revenue</span>
+          <i class="fa-solid fa-ellipsis"></i>
+        </p>
+        <p>
+          <strong>{{sale[0] | currency:"":"0"}} ₫</strong>
+        </p>
+      </div>
+      <div class="overview-box">
+        <p>
+          <i class="fa-solid fa-box-open"></i>
+          <span class="overview-title">Total product sold</span>
+          <i class="fa-solid fa-ellipsis"></i>
+        </p>
+        <p>
+          <strong>{{totalProductSold}}</strong>
+        </p>
+      </div>
+      <div class="overview-box">
+        <p>
+          <i class="fa-solid fa-receipt"></i>
+          <span class="overview-title">Total orders</span>
+          <i class="fa-solid fa-ellipsis"></i>
+        </p>
+        <p>
+          <strong>{{sale[1]}}</strong>
+        </p>
+      </div>
+      <div class="overview-box">
+        <p>
+          <i class="fa-solid fa-user-group"></i>
+          <span class="overview-title">Total new customers</span>
+          <i class="fa-solid fa-ellipsis"></i>
+        </p>
+        <p>
+          <strong>{{signupCurrentDay}}</strong>
+        </p>
+      </div>
+    </div>
+    <div class="right-content">
+      <strong class="chart-title">Top 3 best-selling products this week</strong>
+      <canvas id="top3product"></canvas>
+    </div>
+  </div>
+
+  <div class="revenue-filter">
+    <div class="start-date">
+      <span>From: </span>
+      <input type="date" ng-model="startDate">
+    </div>
+    <div class="end-date">
+      <span>To: </span>
+      <input type="date" ng-model="endDate" max="{{today}}">
+    </div>
+    <div>
+      <button ng-click="filterAvenue()">View statistics</button>
+    </div>
+  </div>
+  <div class="chart-revenue">
+    <canvas id="revenue"></canvas>
+  </div>
+</div>

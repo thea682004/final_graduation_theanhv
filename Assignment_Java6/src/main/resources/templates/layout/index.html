@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+   <meta charset="utf-8">
+   <title>Trang chủ | Sneaker Store</title>
+</head>
+
+<body class="main-layout">
+
+   <!-- Banner hero -->
+   <section class="hero-banner">
+      <img src="/images/home/pc_01_3.jpg" alt="Banner Giày" class="main-banner">
+      <div class="banner-text">
+         <h1>Khám phá bộ sưu tập giày mới nhất</h1>
+         <a href="/product/list" class="btn btn-primary">Mua ngay</a>
+      </div>
+   </section>
+
+   <!-- Thương hiệu -->
+   <section class="home-brand">
+      <a href="#"><img src="/images/converse.png" alt="Converse"></a>
+      <a href="#"><img src="/images/Logo_NIKE.svg" alt="Nike"></a>
+      <a href="#"><img src="/images/Adidas_Logo.svg" alt="Adidas"></a>
+      <a href="#"><img src="/images/Reebok_2019.png" alt="Vans"></a>
+      <a href="#"><img src="/images/puma.svg" alt="Puma"></a>
+   </section>
+
+   <!-- New Arrivals -->
+   <section class="new-arrival-section">
+      <h2 class="section-title">New Arrivals</h2>
+      <div class="product-grid">
+         <div th:each="p : ${newArrivals}" class="product-card">
+            <a th:href="@{/product/{id}(id=${p.id})}">
+               <img th:src="@{|/images/${p.image}|}" loading="lazy" th:alt="${p.name}">
+               <h5>[[${p.name}]] - [[${p.color.name}]]</h5>
+               <span class="price">[[${@moneyFormatter.formatVND(p.price)}]]</span>
+            </a>
+         </div>
+      </div>
+   </section>
+
+   <!-- Featured Categories -->
+   <section class="featured-categories">
+      <h2 class="section-title">Featured</h2>
+      <div class="category-grid">
+         <div class="category-card">
+            <a href="/product/list?cid=1">
+               <img src="/images/nike_casual.webp" alt="Casual Shoes">
+               <h5>Casual Shoes</h5>
+            </a>
+         </div>
+         <div class="category-card">
+            <a href="/product/list?cid=2">
+               <img src="/images/running_shoes.webp" alt="Running Shoes">
+               <h5>Running Shoes</h5>
+            </a>
+         </div>
+         <div class="category-card">
+            <a href="/product/list?cid=3">
+               <img src="/images/puma_lifestyle.webp" alt="Lifestyle Sneakers">
+               <h5>Lifestyle Sneakers</h5>
+            </a>
+         </div>
+         <div class="category-card">
+            <a href="/product/list?cid=4">
+               <img src="/images/vans_Skate_OldSkool36.png" alt="Skateboarding Shoes">
+               <h5>Skateboarding Shoes</h5>
+            </a>
+         </div>
+      </div>
+   </section>
+</body>
+
+</html>

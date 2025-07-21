@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>My orders</title>
+</head>
+
+<body class="main-layout inner_posituong computer_page">
+
+	<div class="breadcrumb breadcrumb-order">
+		<a href="/">Trang chủ</a>
+		<span>&nbsp;>&nbsp;</span>
+		<span>Đơn hàng</span>
+	</div>
+
+	<nav class="order-list-menu">
+		<a id="confirmed" class="active">Đã xác nhận ([[${#lists.size(orders)}]])</a>
+		<a id="delivering">Đang giao ([[${#lists.size(deliveringOrders)}]])</a>
+		<a id="completed">Giao thành công ([[${#lists.size(completedOrders)}]])</a>
+		<a id="cancel">Đã hủy ([[${#lists.size(cancelOrders)}]])</a>
+	</nav>
+	<section id="confirmed-section">
+		<div th:if="${not #lists.isEmpty(orders)}" class="order-detail-home" th:each="order,state : ${orders}">
+			<div class="order-detail-title">
+				<h4>Mã đặt hàng: [[${order.id}]]</h4>
+				<h4>Tổng tiền: [[${@moneyFormatter.formatVND(order.totalAmount)}]]</h4>
+			</div>
+			<div>
+				<span>Số điện thoại: [[${order.phoneNumber}]]</span><br>
+				<span>Địa chỉ giao hàng: [[${order.address}]]</span>
+			</div>
+			<div>
+				<small>Ngày đặt hàng: [[${order.createDate}]]</small>
+				<a th:href="@{|/order/detail/${order.id}|}">Chi tiết <i class="fa-solid fa-angles-right"></i></a>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(orders)}" class="no-order">
+			<small>Chưa có đơn hàng nào.</small>
+		</div>
+	</section>
+
+	<!------->
+	<section class="d-none" id="delivering-section">
+		<div th:if="${not #lists.isEmpty(deliveringOrders)}" class="order-detail-home"
+			th:each="order,state : ${deliveringOrders}">
+			<div class="order-detail-title">
+				<h4>Mã đặt hàng: [[${order.id}]]</h4>
+				<h4>Tổng tiền: [[${@moneyFormatter.formatVND(order.totalAmount)}]]</h4>
+			</div>
+			<div>
+				<span>Số điện thoại: [[${order.phoneNumber}]]</span><br>
+				<span>Địa chỉ giao hàng: [[${order.address}]]</span>
+			</div>
+			<div>
+				<small>Ngày đặt hàng: [[${order.createDate}]]</small>
+				<a th:href="@{|/order/detail/${order.id}|}">Chi tiết <i class="fa-solid fa-angles-right"></i></a>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(deliveringOrders)}" class="no-order">
+			<small>Chưa có đơn hàng nào.</small>
+		</div>
+	</section>
+
+	<!----->
+	<section class="d-none" id="completed-section">
+		<div th:if="${not #lists.isEmpty(completedOrders)}" class="order-detail-home"
+			th:each="order,state : ${completedOrders}">
+			<div class="order-detail-title">
+				<h4>Mã đặt hàng: [[${order.id}]]</h4>
+				<h4>Tổng tiền: [[${@moneyFormatter.formatVND(order.totalAmount)}]]</h4>
+			</div>
+			<div>
+				<span>Số điện thoại: [[${order.phoneNumber}]]</span><br>
+				<span>Địa chỉ giao hàng: [[${order.address}]]</span>
+			</div>
+			<div>
+				<small>Ngày đặt hàng: [[${order.createDate}]]</small>
+				<div>
+					<a th:href="@{|/order/detail/${order.id}|}">Chi tiết <i class="fa-solid fa-angles-right"></i></a>
+					<a href="javascript:void(0)" class="feedback-btn"
+						th:attr="ng-click=@{|loadDetailReview(${order.id})|}"><i
+							class="fa-regular fa-star-half-stroke"></i> Đánh giá</a>
+				</div>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(completedOrders)}" class="no-order">
+			<small>Chưa có đơn hàng nào.</small>
+		</div>
+	</section>
+	<!------>
+	<section class="d-none" id="cancel-section">
+		<div th:if="${not #lists.isEmpty(cancelOrders)}" class="order-detail-home"
+			th:each="order,state : ${cancelOrders}">
+			<div class="order-detail-title">
+				<h4>Mã đặt hàng: [[${order.id}]]</h4>
+				<h4>Tổng tiền: [[${@moneyFormatter.formatVND(order.totalAmount)}]]</h4>
+			</div>
+			<div>
+				<span>Số điện thoại: [[${order.phoneNumber}]]</span><br>
+				<span>Địa chỉ giao hàng: [[${order.address}]]</span>
+			</div>
+			<div>
+				<small>Ngày đặt hàng: [[${order.createDate}]]</small>
+				<a th:href="@{|/order/detail/${order.id}|}">Chi tiết <i class="fa-solid fa-angles-right"></i></a>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(cancelOrders)}" class="no-order">
+			<small>Chưa có đơn hàng nào.</small>
+		</div>
+	</section>
+
+
+	<!--Modal-->
+
+	<div class="feedback-modal w3-modal">
+		<div class="w3-modal-content w3-animate-zoom feedback-container">
+			<i class="fa-solid fa-xmark feedback-close"></i>
+			<div class="feedback-detail" ng-repeat="order in detailReviews">
+				<img alt="images" ng-src="/images/{{order.product.image}}">
+				<div>
+					<b>{{order.product.name}}</b><br>
+					<input type="hidden" th:value="${username}" id="review-username">
+					<input type="hidden" value="{{order.product.id}}" id="{{'review-product-id-' + order.product.id}}">
+					<div class="rating">
+						<input type="radio" id="{{'star5' + order.product.id}}" name="{{'rating' + order.product.id}}"
+							value="5" /><label for="{{'star5' + order.product.id}}"></label>
+						<input type="radio" id="{{'star4' + order.product.id}}" name="{{'rating' + order.product.id}}"
+							value="4" /><label for="{{'star4' + order.product.id}}"></label>
+						<input type="radio" id="{{'star3' + order.product.id}}" name="{{'rating' + order.product.id}}"
+							value="3" /><label for="{{'star3' + order.product.id}}"></label>
+						<input type="radio" id="{{'star2' + order.product.id}}" name="{{'rating' + order.product.id}}"
+							value="2" /><label for="{{'star2' + order.product.id}}"></label>
+						<input type="radio" id="{{'star1' + order.product.id}}" name="{{'rating' + order.product.id}}"
+							value="1" /><label for="{{'star1' + order.product.id}}"></label>
+					</div>
+					<textarea id="{{'review-textarea-' + order.product.id}}" cols="20" rows="4"></textarea><br>
+				</div>
+				<button ng-click="sendReview(order, order.product.id, $index)"><i class="fa-regular fa-paper-plane"></i>
+					Gửi</button>
+			</div>
+			<div ng-if="detailReviews.length == 0">
+				<p>Đã hết sản phẩm để đánh giá.</p>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+		$(document).ready(function () {
+			$(".order-list-menu a").click(function () {
+				$(".order-list-menu a").removeClass("active");
+				$(this).addClass("active");
+				const targetId = $(this).attr("id");
+				const section = $('section');
+				section.addClass('d-none');
+				$("#" + targetId + "-section").removeClass("d-none");
+			});
+
+			$('.feedback-btn').on('click', function () {
+				$('.feedback-modal').addClass('active');
+			})
+
+			$('.fa-xmark').on('click', function () {
+				$('.feedback-modal').removeClass('active');
+			})
+		});
+	</script>
+</body>
+
+</html>

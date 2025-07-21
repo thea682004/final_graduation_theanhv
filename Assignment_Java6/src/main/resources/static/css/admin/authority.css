@@ -1,0 +1,53 @@
+.authority-section{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.authority-row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  background-color: var(--admin-background);
+  padding: 15px 15px;
+  border: 1px solid #ccc;
+}
+
+.authority-row input{
+  display: none;
+}
+
+.authority-row label {
+  padding: 7px;
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.authority-row label:hover {
+  background-color: #ccc;
+}
+
+
+.authority-row input:checked + label {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+
+.authority-row strong {
+  position: absolute;
+  color: var(--secondary-color);
+  top: -10px;
+  background-color: var(--admin-background);
+  padding: 0 10px;
+  z-index: 1;
+}
+
+.custom-checkbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}

@@ -1,0 +1,28 @@
+<section class="w3-animate-opacity" id="brand-section">
+	<form class="w3-container form-add-brand">
+			<input ng-model="form.name" class="brand-name" type="text" placeholder="Enter brand name..." required />
+			<button ng-click="create()" class="brand-button">Create</button>
+			<button ng-click="reset()"class="brand-button" >Reset</button>
+	</form>
+	<div class="brand-section">
+		<div class="admin-brand-card" ng-repeat="item in pager.items">
+			<div class="card-body">
+				<strong>{{item[1]}} products</strong>
+			</div>
+			<div class="card-footer">
+				<strong>{{item[0].name}}</strong>
+				<span><i class="fa-solid fa-arrow-right"></i></span>
+			</div>
+		</div>
+	</div>
+	
+	<div class="w3-center brand-navigator">
+		<div class="w3-bar">
+			<button class="w3-bar-item" ng-click="pager.first()"><i class="fa-solid fa-backward-step"></i></button>
+			<button class="w3-bar-item" ng-click="pager.prev()"><i class="fa-solid fa-backward-fast"></i></button>
+			<button class="w3-bar-item">{{pager.page+1}} of {{pager.count}}</button>
+			<button class="w3-bar-item" ng-click="pager.next()"><i class="fa-solid fa-forward-fast"></i></button>
+			<button class="w3-bar-item" ng-click="pager.last()"><i class="fa-solid fa-forward-step"></i></button>
+		</div>
+	</div>
+</section>

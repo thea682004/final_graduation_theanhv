@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Checkout</title>
+</head>
+<body class="main-layout inner_posituong computer_page">
+	<div class="w3-container w3-margin-top">
+		<div class="w3-text-grey">
+			<div class="w3-leftbar w3-text-grey w3-padding-right">
+				<p>
+					<b class="w3-margin-left">Checkout order | </b><b id="username" sec:authentication="name"></b>
+				</p>
+			</div>
+		</div>
+		<div
+			class=" w3-panel w3-card w3-border-grey w3-padding-24 w3-animate-bottom">
+			<form>
+				<p class="w3-center">
+					<b>HÓA ĐƠN</b>
+				</p>
+				<p>
+					<label>Số điện thoại</label> <input class="w3-input w3-border"
+						name="sdt" ng-model="order.sdt" required>
+				</p>
+				<p>
+					<label>Địa chỉ nhận hàng</label> <input class="w3-input w3-border"
+						ng-model="order.address" name="diachi" required>
+				</p>
+				<br>
+				<p>
+					<b> Total : {{cart.amount | number:2 }}$</b>
+				</p>
+				<br>
+				<p>
+					<button class="w3-button w3-red" ng-click="order.purchase()">Đặt
+						hàng</button>
+				</p>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

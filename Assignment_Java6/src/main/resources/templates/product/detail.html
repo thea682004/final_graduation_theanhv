@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Sản Phẩm</title>
+</head>
+
+<body>
+  <div class="breadcrumb">
+    <a href="/">Trang chủ</a>
+    <span>&nbsp;>&nbsp;</span>
+    <a href="/product/list">Sản phẩm</a>
+    <span>&nbsp;>&nbsp;</span>
+    <span>[[${product.name}]]</span>
+  </div>
+  <div class="detail-container">
+    <div class="flex-left">
+      <img th:src="@{|/images/${product.image}|}" alt="" class="main-img">
+      <div class="thumbnail-container">
+        <img th:src="@{|/images/${product.image}|}" alt="" class="thumbnail-img add-border">
+        <img th:src="@{|/images/${product.image1}|}" alt="" class="thumbnail-img">
+        <img th:src="@{|/images/${product.image2}|}" alt="" class="thumbnail-img">
+        <img th:src="@{|/images/${product.image3}|}" alt="" class="thumbnail-img">
+      </div>
+    </div>
+    <div class="flex-right">
+      <h1 class="home-product-name">[[${product.name}]] - [[${product.color.name}]]</h1>
+      <!-- <strike>$[[${product.price + 1000}]]</strike> -->
+      <h1 class="home-product-price w3-text-red">[[${@moneyFormatter.formatVND(product.price)}]]</h1>
+      <div>
+        <select name="size-product" id="size-product">
+          <option th:each="s:${size}" th:value="${s.size}" th:disabled="${s.quantity == 0}">Size [[${s.size}]]
+            ([[${s.quantity}]])</option>
+        </select>
+        <input type="number" value="1" id="quantity-product" min="1">
+        <div>
+          <button class="add-to-cart"
+            th:attr="ng-click=@{|cart.add(${product.id}, cart.getsize(), cart.getquantity())|}">Thêm
+            vào giỏ hàng</button>
+        </div>
+        <div> <button class="buy-product"
+            th:attr="ng-click=@{|cart.addAndPay(${product.id}, cart.getsize(), cart.getquantity())|}">Mua ngay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h4>CHI TIẾT SẢN PHẨM.</h4>
+    <p>[[${product.description}]]</p>
+  </div>
+  <div class="feedback" th:product-id="${product.id}">
+    <h4>ĐÁNH GIÁ SẢN PHẨM ({{averageRating(reviewProduct)}} <i class="fa-solid fa-star"></i>)</h4>
+    <span class="w3-text-red">({{reviewProduct.length}})</span> <span> đánh giá</span><br>
+    <div class="feedback-container-detail" ng-if="reviewProduct.length === 0">
+      <p>Chưa có đánh giá nào.</p>
+    </div>
+    <div class="feedback-container-detail" ng-repeat="feedback in reviewProduct">
+      <i class="fa-solid fa-user-tie"></i>
+      <div>
+        <span>{{feedback.account.fullname}}</span><br>
+        <div class="rating">
+          <input type="radio" id="{{'star5-' + $index}}" name="{{'rating2-' + $index}}" value="5" ng-checked="isRatingChecked(feedback.star, 5)"><label for="{{'star5-' + $index}}"></label>
+          <input type="radio" id="{{'star4-' + $index}}" name="{{'rating2-' + $index}}" value="4" ng-checked="isRatingChecked(feedback.star, 4)"><label for="{{'star4-' + $index}}"></label>
+          <input type="radio" id="{{'star3-' + $index}}" name="{{'rating2-' + $index}}" value="3" ng-checked="isRatingChecked(feedback.star, 3)"><label for="{{'star3-' + $index}}"></label>
+          <input type="radio" id="{{'star2-' + $index}}" name="{{'rating2-' + $index}}" value="2" ng-checked="isRatingChecked(feedback.star, 2)"><label for="{{'star2-' + $index}}"></label>
+          <input type="radio" id="{{'star1-' + $index}}" name="{{'rating2-' + $index}}" value="1" ng-checked="isRatingChecked(feedback.star, 1)"><label for="{{'star1-' + $index}}"></label>
+        </div> <br>
+        <small>{{feedback.reviewday}}</small><br>
+        <span>{{feedback.review}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recommend-product">
+    <h4>SẢN PHẨM TƯƠNG TỰ</h4>
+    <div class="product-item" th:if="${not #lists.isEmpty(page.content)}">
+      <div class="item" th:each="item: ${page.content}">
+        <a th:href="@{|/product/${item.id}|}"><img th:src="@{|/images/${item.image}|}" loading="lazy"></a>
+        <div class="product-title">[[${item.name}]] - [[${item.color.name}]]</div>
+        <div class="product-price">
+          <span>[[${@moneyFormatter.formatVND(item.price)}]]</span>
+          <div class="cart-hover-box">
+            <i class="fa-solid fa-cart-plus"></i>
+            <div class="cart-hover" th:item-size-id="${item.id}">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const thumbnails = document.querySelectorAll(".thumbnail-img");
+
+    thumbnails.forEach(function (thumbnail) {
+      thumbnail.addEventListener("click", function () {
+        const imagePath = this.getAttribute("src");
+        thumbnails.forEach(e => e.classList.remove('add-border'));
+        this.classList.add('add-border');
+        document.querySelector(".main-img").setAttribute("src", imagePath);
+      });
+    });
+
+    $(document).ready(function() {
+      $(".description p").each(function() {
+        var text = $(this).text();
+        var newText = text.replace(/\.\s*/g, ".- ");
+        newText = "- " + newText;
+        newText = newText.replace(/- $/, "");
+        newText = newText.replace(/\.$/, "");
+        newText = newText.replace(/\./g, "<br>");
+        $(this).html(newText);
+      });
+    });
+  </script>
+</body>
+
+</html>

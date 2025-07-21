@@ -1,0 +1,72 @@
+:root {
+  --primary-color: #EBD96B;
+  --secondary-color: #383c44;
+  --admin-background: #efeff4;
+}
+
+* {
+	font-family: "Montserrat", sans-serif;
+	font-size: 13px;
+}
+
+body {
+  overflow: hidden;
+  height: 100vh;  
+}
+
+
+.admin-main-content {
+  overflow-y: auto;
+  height: calc(100vh - 70px);
+}
+
+.admin-top-bar{
+  height: 70px;
+  background-color: #fff;
+  border-bottom: #797979 solid .5px;
+}
+
+.left-bar {
+  float: left;
+  padding: 10px 25px;
+}
+
+.right-bar {
+  float: right;
+  padding: 25px;
+}
+
+.admin-tab {
+  text-decoration: none;
+  color: #333;
+  padding: 15px 25px !important;
+  transition: .4s;
+}
+
+.admin-tab.active {
+  color: #fff;
+  background-color: var(--primary-color);;
+}
+
+.admin-tab:hover {
+  background-color: rgba(54, 57, 69, 0.2);
+  color: #333;
+}
+
+.admin-tab:last-child{
+  position: absolute;
+  bottom: 70px;
+}
+
+.admin-tab > span {
+  margin-left: 10px;
+}
+
+.admin-tab > i {
+  width: 20px;
+}
+
+.common-button {
+  background-color: var(--secondary-color);
+  color: #fff;
+}

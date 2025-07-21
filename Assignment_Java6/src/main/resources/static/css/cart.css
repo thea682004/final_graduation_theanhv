@@ -1,0 +1,107 @@
+.table-product-row>td {
+  vertical-align: middle;
+}
+
+.table-product-row img {
+  max-width: 70px;
+}
+
+.table-product-row input {
+  max-width: 60px;
+  text-align: center;
+}
+
+.table-product-row i {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.table-product-row i:hover {
+  color: red;
+}
+
+.cart-table {
+  width: 70%;
+  margin-left: 10px;
+}
+
+.cart-table a {
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+}
+
+.cart-table a:hover {
+  color: red;
+}
+
+.cart-table th,
+.cart-table td {
+  text-align: center;
+}
+
+.pay-button {
+  padding: 5px;
+  width: 120px;
+  background-color: #2E8B57;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+}
+
+.cart-section {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.cart-pay {
+  width: 30%;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  height: 100vh;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.2);
+}
+
+.cart-breadcrumb {
+  margin-left: 10px;
+}
+
+.cart-pay div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.cart-pay div b{
+  color: #2E8B57;
+  font-size: larger;
+}
+
+.vn-pay {
+  display: none;
+}
+
+.vn-pay.active {
+  display: block;
+}
+
+.vn-pay input {
+  display: none;
+}
+
+.vn-pay label {
+  cursor: pointer;
+}
+
+.vn-pay input[type="radio"]:checked + label {
+  border: 2px solid #2E8B57;
+  border-radius: 10px;
+}
+
+#payment li {
+  padding: 10px 5px;
+}

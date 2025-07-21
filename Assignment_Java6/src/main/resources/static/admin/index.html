@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Shop management</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-2019.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-2021.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-ios.css">
+<!---------------------------------------------------------------------------------->
+<link rel="stylesheet" href="/css/admin/dashboard.css">
+<link rel="stylesheet" href="/css/admin/category.css">
+<link rel="stylesheet" href="/css/admin/brand.css">
+<link rel="stylesheet" href="/css/admin/color.css">
+<link rel="stylesheet" href="/css/admin/index.css">
+<link rel="stylesheet" href="/css/admin/product.css">
+<link rel="stylesheet" href="/css/admin/authority.css">
+<link rel="stylesheet" href="/css/admin/customer.css">
+<link rel="stylesheet" href="/css/admin/order.css">
+<link rel="stylesheet" href="/css/admin/counter.css">
+<!---------------------------------------------------------------------------------------->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<script src="https://kit.fontawesome.com/bf4e96c7b9.js" crossorigin="anonymous"></script>
+<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+	
+</head>
+<body class="w3-ios-background w3-content" style="max-width: 1600px" ng-app="admin-app">
+	<div class="admin-top-bar w3-flat-midnight-blue">
+		<div class="left-bar">
+			<div class="top-bar-logo">
+				<i class="fa-solid fa-shop fa-2x"></i>
+			</div>
+			<b>Shop management</b>
+		</div>
+		<div class="right-bar">
+			<b>Hello Nghia</b>
+			<i class="fa-solid fa-hands-clapping"></i>
+		</div>
+	</div>
+	<!-- Sidebar/menu -->
+	<nav class="w3-sidebar w3-white admin-left-bar" style="z-index: 3; width: 250px;" id="mySidebar">
+		<div class="w3-bar-block">
+			<a href="#/!" class="w3-bar-item admin-tab active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a> 
+			<a href="#!counter" class="w3-bar-item admin-tab"><i class="fa-solid fa-bag-shopping"></i><span>POS</span></a> 
+			<a href="#!order" class="w3-bar-item admin-tab"><i class="fa-solid fa-bag-shopping"></i><span>Order</span></a> 
+			<a href="#!product" class="w3-bar-item admin-tab"><i class="fa-solid fa-shirt"></i><span>Product</span></a>
+			<a href="#!customer" class="w3-bar-item admin-tab"> <i class="fa-solid fa-users"></i><span>Customer</span></a>
+			<a href="#!authority" class="w3-bar-item admin-tab"><i class="fa-solid fa-user-shield"></i><span>Authority</span></a> 
+			<a href="#!category" class="w3-bar-item admin-tab"><i class="fa-solid fa-diagram-project"></i><span>Category</span></a>
+			<a href="#!brand" class="w3-bar-item admin-tab"><i class="fa-solid fa-diagram-project"></i><span>Brand</span></a>
+			<a href="#!color" class="w3-bar-item admin-tab"><i class="fa-solid fa-diagram-project"></i><span>Color</span></a>
+			<a ng-href="/logout" onclick="w3_close()" class="w3-bar-item admin-tab"><i 	class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+		</div>
+	</nav>
+
+	<!-- !PAGE CONTENT! -->
+	<div class="admin-main-content" style="margin-left: 250px">
+		<div ng-view></div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script type="text/javascript" src="/js/admin/index.js"></script>
+	<script type="text/javascript" src="/js/admin/dashboard.js"></script>
+	<script type="text/javascript" src="/js/admin/customer.js"></script>
+	<script type="text/javascript" src="/js/admin/authority.js"></script>
+	<script type="text/javascript" src="/js/admin/product.js"></script>
+	<script type="text/javascript" src="/js/admin/category.js"></script>
+	<script type="text/javascript" src="/js/admin/brand.js"></script>
+	<script type="text/javascript" src="/js/admin/color.js"></script>
+	<script type="text/javascript" src="/js/admin/order.js"></script>
+	<script type="text/javascript" src="/js/admin/counter.js"></script>
+</body>
+</html>

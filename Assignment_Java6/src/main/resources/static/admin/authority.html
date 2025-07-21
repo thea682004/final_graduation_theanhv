@@ -1,0 +1,13 @@
+
+<section class="w3-animate-opacity authority-section">
+		<div class="authority-row" ng-repeat ="acc in admins">
+			<strong>{{acc.username}}</strong>
+			<div ng-repeat="role in roles">
+				<input ng-checked="authority_of(acc,role)" ng-click ="authority_changed(acc,role)" type ="checkbox" id="{{acc.username + role.name}}">
+				<label class="custom-checkbox" for="{{acc.username + role.name}}">
+					<span>{{role.name}}</span>
+					<i class="fa-solid fa-circle-check" ng-show="authority_of(acc,role)"></i>				
+				</label>
+			</div>
+		</div>
+</section>

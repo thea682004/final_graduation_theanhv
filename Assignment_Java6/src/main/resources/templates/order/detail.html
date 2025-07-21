@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{/layout/layout.html :: dynamic(~{::title},~{::body})}">
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>OrderDetail</title>
+</head>
+
+<body>
+	<div class="breadcrumb breadcrumb-order">
+		<a href="/">Trang chủ</a>
+		<span>&nbsp;>&nbsp;</span>
+		<a href="/order/list">Đơn hàng</a>
+		<span>&nbsp;>&nbsp;</span>
+		<span>Chi tiết</span>
+	</div>
+
+	<div class="order-detail-home" th:object="${order}">
+		<div class="order-detail-title">
+			<h4>Mã đặt hàng: [[*{id}]]</h4>
+			<h4>Tổng tiền: [[${@moneyFormatter.formatVND(order.totalAmount)}]]</h4>
+		</div>
+		<div>
+			<span>Số điện thoại: [[*{phoneNumber}]]</span><br>
+			<span>Địa chỉ giao hàng: [[*{address}]]</span>
+		</div>
+		<div>
+			<small>Ngày đặt hàng: [[*{createDate}]]</small>
+			<button th:disabled="${order.status != 'confirmed'}" th:attr="ng-click=@{|cart.cancelOrder(*{id})|}">Hủy đơn
+				hàng</button>
+		</div>
+	</div>
+	<div class="order-detail-product-section" th:object="${order}">
+		<div class="order-detail-product" th:each="detail: *{orderDetails}" th:object="${detail}">
+			<div>
+				<img alt="images" th:src="@{|/images/*{product.image}|}" style="max-width: 100px;">
+				<div>
+					<a th:href="@{|/product/*{product.id}|}"><b>[[*{product.name}]] - [[*{product.color.name}]]</b></a><br>
+					<small>Size: [[*{size}]]</small>
+				</div>
+			</div>
+			<div>
+				<b>[[*{@moneyFormatter.formatVND(product.price)}]]</b><br>
+				<small>Số lượng: [[*{quantity}]]</small>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

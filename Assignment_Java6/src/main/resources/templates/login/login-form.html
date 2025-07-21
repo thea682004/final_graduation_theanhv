@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet"
+	href="https://www.w3schools.com/lib/w3-colors-2021.css">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Montserrat">
+<style>
+body {
+	background-image : url('/images/background1.jpg');
+	font-family: "Montserrat", sans-serif;
+}
+.card{
+	background-color: white;
+}
+</style>
+</head>
+<body>
+	<div class="w3-display-middle w3-card-4 card">
+		<header class="w3-container w3-red">
+			<h3>Login</h3>
+		</header>
+
+		<form th:action="@{|/login|}" method="post"
+			class="w3-container w3-section" style="width: 450px;">
+			<label>Username</label> <input name="username" type="text"
+				class="w3-input w3-border w3-round" /><br> <label>Password</label>
+			<input name="password" type="password"
+				class="w3-input w3-border w3-round" /><br>
+			<button class="w3-button w3-green w3-round">Login</button>
+		</form>
+
+	</div>
+
+</body>
+</html>
