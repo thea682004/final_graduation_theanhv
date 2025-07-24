@@ -33,7 +33,7 @@
          <div th:each="p : ${newArrivals}" class="product-card">
             <a th:href="@{/product/{id}(id=${p.id})}">
                <img th:src="@{|/images/${p.image}|}" loading="lazy" th:alt="${p.name}">
-               <h5>[[${p.name}]] - [[${p.color.name}]]</h5>
+               <h5>[[${p.name}]] - [[${p.color?.name}]]</h5>
                <span class="price">[[${@moneyFormatter.formatVND(p.price)}]]</span>
             </a>
          </div>

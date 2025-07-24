@@ -40,7 +40,7 @@
 .cart-hover {
   display: none;
   position: absolute;
-  top: 30px;
+  top: 0;
   right: 0;
   background-color: #fff;
   min-width: 160px;
@@ -130,7 +130,7 @@
   display: flex;
   gap: 10px;
   overflow-x: auto;
-  padding-bottom: 5px;
+  padding: 10px;
   max-width: 80%;
 }
 
@@ -233,7 +233,7 @@
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  overflow: hidden;
+  overflow: visible;
   text-align: center;
   padding: 10px;
   transition: 0.3s;
@@ -269,6 +269,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  margin-top: 18px;
 }
 
 .counter-footer-column {
@@ -326,4 +327,8 @@
   display: flex;
   gap: 10px;
   margin-top: 10px;
+}
+
+.modal-dialog-centered {
+  justify-content: center;
 }

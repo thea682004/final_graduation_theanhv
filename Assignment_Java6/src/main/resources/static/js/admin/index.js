@@ -55,6 +55,10 @@ app.config(function($routeProvider) {
 			templateUrl: "/admin/counter.html",
 			controller: "counter-ctrl"
 		})
+		.when("/counter/:id", {
+			templateUrl: "/admin/counter.html",
+			controller: "counter-ctrl"
+		})
 		.otherwise({
 			redirectTo: "/"
 		});

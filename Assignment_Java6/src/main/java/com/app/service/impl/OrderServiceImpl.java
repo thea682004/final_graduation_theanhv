@@ -22,81 +22,99 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-	@Autowired
-	OrderDAO dao;
+    @Autowired
+    OrderDAO dao;
 
-	@Autowired
-	OrderDetailDAO ddao;
-	
-	LocalDate endDate = LocalDate.now();
-	LocalDate startDate = endDate.minusDays(6);
-	Date start =  Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-	Date end =  Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    @Autowired
+    OrderDetailDAO ddao;
 
-	@Autowired
-ProductSizeDAO psizeDAO;
+    LocalDate endDate = LocalDate.now();
+    LocalDate startDate = endDate.minusDays(6);
+    Date start = Date.from(startDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    Date end = Date.from(endDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-public Order create(JsonNode orderData) {
-	ObjectMapper mapper = new ObjectMapper();
-	Order order = mapper.convertValue(orderData, Order.class);
-	dao.save(order);
+    @Autowired
+    ProductSizeDAO psizeDAO;
 
-	TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>() {};
-	List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"), type).stream()
-			.peek(d -> d.setOrder(order))
-			.collect(Collectors.toList());
-	ddao.saveAll(details);
+    public Order create(JsonNode orderData) {
+        ObjectMapper mapper = new ObjectMapper();
+        Order order = mapper.convertValue(orderData, Order.class);
+        dao.save(order);
 
-	// Trừ kho
-	details.forEach(detail -> {
-		ProductSize ps = psizeDAO.findByProductIdAndSize(detail.getProduct().getId(), detail.getSize());
-		if (ps != null) {
-			ps.setQuantity(ps.getQuantity() - detail.getQuantity());
-			psizeDAO.save(ps);
-		}
-	});
+        TypeReference<List<OrderDetail>> type = new TypeReference<List<OrderDetail>>() {
+        };
+        List<OrderDetail> details = mapper.convertValue(orderData.get("orderDetails"), type).stream()
+                .peek(d -> d.setOrder(order))
+                .collect(Collectors.toList());
+        ddao.saveAll(details);
 
-	return order;
-}
+        // Trừ kho
+        details.forEach(detail -> {
+            ProductSize ps = psizeDAO.findByProductIdAndSize(detail.getProduct().getId(), detail.getSize());
+            if (ps != null) {
+                ps.setQuantity(ps.getQuantity() - detail.getQuantity());
+                psizeDAO.save(ps);
+            }
+        });
+
+        return order;
+    }
 
 
-	@Override
-	public Order findById(Long id) {
-		return dao.findById(id).get();
-	}
+    @Override
+    public Order findById(Long id) {
+        return dao.findById(id).get();
+    }
 
-	@Override
-	public List<Order> findByUsername(String username, String status) {
-		return dao.findByUsername(username, status);
-	}
+    @Override
+    public List<Order> findByUsername(String username, String status) {
+        return dao.findByUsername(username, status);
+    }
 
-	@Override
-	public Object getTotalAmountCurrentDay() {
-		return dao.totalAmountCurrentDay(new Date());
-	}
+    @Override
+    public Object getTotalAmountCurrentDay() {
+        return dao.totalAmountCurrentDay(new Date());
+    }
 
-	@Override
-	public Integer totalProductSold() {
-		return ddao.totalProductSoldCurrentDay(new Date());
-	}
+    @Override
+    public Integer totalProductSold() {
+        return ddao.totalProductSoldCurrentDay(new Date());
+    }
 
-	@Override
-	public List<Object[]> top5ProductAWeek() {
-		return ddao.getTop5SellingProductsForWeek(start, end);
-	}
+    @Override
+    public List<Object[]> top5ProductAWeek() {
+        return ddao.getTop5SellingProductsForWeek(start, end);
+    }
 
-	@Override
-	public List<Order> findAll(){
-		return dao.findAll();
-	}
+    @Override
+    public List<Order> findAll() {
+        return dao.findAll();
+    }
 
-	@Override
-	public List<OrderDetail> getOrderDetail(Long orderId) {
-		return ddao.findByOrderId(orderId);
-	}
+    @Override
+    public List<OrderDetail> getOrderDetail(Long orderId) {
+        return ddao.findByOrderId(orderId);
+    }
 
-	@Override
-	public List<Object[]> getRevenueForAWeek(Date start, Date end) {
-		return dao.getRevenueByDateRange(start, end);
-	}
+    @Override
+    public List<Object[]> getRevenueForAWeek(Date start, Date end) {
+        return dao.getRevenueByDateRange(start, end);
+    }
+
+    @Override
+    public Order updateOder(Order order) {
+        List<OrderDetail> orderDetailList = ddao.findAllByOrder(order);
+        if (orderDetailList != null && !orderDetailList.isEmpty()) {
+            for (OrderDetail orderDetail : orderDetailList) {
+                Long productId = orderDetail.getProduct().getId();
+                String size = orderDetail.getSize();
+                ProductSize productSize = psizeDAO.findBySizeAndProductId(size, productId);
+                productSize.setQuantity(productSize.getQuantity() + orderDetail.getQuantity());
+                psizeDAO.save(productSize);
+            }
+        } else {
+            throw new RuntimeException("Đã có lỗi xảy ra, vui lòng thử lại sau!");
+        }
+        return dao.save(order);
+    }
 }

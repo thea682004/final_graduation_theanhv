@@ -17,4 +17,7 @@ public interface ProductSizeDAO extends JpaRepository<ProductSize, Integer> {
   @Query("SELECT ps FROM ProductSize ps WHERE ps.product.id = :productId AND ps.size = :size")
     ProductSize findByProductIdAndSize(@Param("productId") Long productId, @Param("size") String size);
 
+  @Query("SELECT p FROM ProductSize p WHERE p.size LIKE ?1 AND p.product.id = ?2")
+  ProductSize findBySizeAndProductId(String size, Long productId);
+
 }

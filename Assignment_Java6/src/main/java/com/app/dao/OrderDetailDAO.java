@@ -35,4 +35,6 @@ public interface OrderDetailDAO extends JpaRepository<OrderDetail, Long> {
 
   @Query("SELECT od FROM OrderDetail od WHERE od.product.id = :productId AND od.size = :size")
   OrderDetail findByProductIdAndSize(@Param("productId") Long productId, @Param("size") String size);
+
+  List<OrderDetail> findAllByOrder(Order order);
 }

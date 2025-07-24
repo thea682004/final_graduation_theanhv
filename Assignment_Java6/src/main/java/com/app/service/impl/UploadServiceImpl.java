@@ -22,15 +22,25 @@ public class UploadServiceImpl implements UploadService{
 		if(!dir.exists()) {
 			dir.mkdirs();
 		}
-		String s = System.currentTimeMillis() + file.getOriginalFilename();
-		String name = Integer.toHexString(s.hashCode())+ s.substring(s.lastIndexOf("."));
+		String originalName = file.getOriginalFilename();
+		String baseName = originalName.substring(0, originalName.lastIndexOf("."));
+		String extension = originalName.substring(originalName.lastIndexOf("."));
+
+		File savedFile = new File(dir, originalName);
+		int count = 1;
+
+		// Nếu file đã tồn tại, tạo tên mới tránh trùng
+		while (savedFile.exists()) {
+			String newName = baseName + "-" + count + extension;
+			savedFile = new File(dir, newName);
+			count++;
+		}
 		try {
-			File savedFile = new File(dir, name);
 			file.transferTo(savedFile);
 			System.out.println(savedFile.getAbsolutePath());
 			return savedFile;
 		}catch(Exception e) {
-			throw new RuntimeException(e);
+			throw new RuntimeException("Upload fail: " + e.getMessage(), e);
 		}
 	}
 }

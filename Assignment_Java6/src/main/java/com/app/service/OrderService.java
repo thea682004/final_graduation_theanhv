@@ -27,4 +27,6 @@ public interface OrderService {
 
 	List<Object[]> getRevenueForAWeek(Date start, Date end);
 
+	Order updateOder(Order order);
+
 }

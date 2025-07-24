@@ -153,6 +153,10 @@ app.controller("cart-ctrl", function ($scope, $http, $location) {
 
 		//add items to cart
 		add(id, size, quantity) {
+			if (quantity <= 0) {
+				alert("Số lượng không hợp lệ!");
+				return;
+			}
 			const existingItem = this.items.find(item => item.id == id && item.size == size);
 
 			// Gọi API lấy tồn kho theo size
@@ -193,6 +197,11 @@ app.controller("cart-ctrl", function ($scope, $http, $location) {
 			});
 		},
 		addAndPay(id, size, quantity) {
+			if (quantity <= 0) {
+				alert("Số lượng không hợp lệ!");
+				return;
+			}
+
 			const existingItem = this.items.find(item => item.id == id && item.size == size);
 
 			$http.get(`/rest/products/size/${id}`).then(resp => {

@@ -52,4 +52,10 @@ public class AccountRestController {
 		 accountService.signUP(account);
 		 accService.updateAccount(account);
 	}
+
+	@GetMapping("/username")
+	public Account getAccount(@RequestParam String username) {
+		return accountService.findById(username);
+	}
+
 }

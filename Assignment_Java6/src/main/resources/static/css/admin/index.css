@@ -11,7 +11,7 @@
 
 body {
   overflow: hidden;
-  height: 100vh;  
+  height: 100vh;
 }
 
 
@@ -69,4 +69,10 @@ body {
 .common-button {
   background-color: var(--secondary-color);
   color: #fff;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: bold;
 }

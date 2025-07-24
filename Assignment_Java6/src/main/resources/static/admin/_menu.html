@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav>
+		<a th:href="@{/home/index}">[(#{home})]</a> <a
+			th:href="@{/home/about}" th:text="#{about}"></a> <a
+			th:href="@{/home/contact}" th:text="#{contact}"></a> <a
+			th:href="@{/home/form}" th:text="#{form}"></a> [<a href="?lang=vi">Tiếng
+			Việt</a>] [<a href="?lang=en">English</a>]
+	</nav>
+	
+	<div th:fragment="navbar">
+		<div class="admin-top-bar w3-flat-midnight-blue">
+			<div class="left-bar">
+				<div class="top-bar-logo">
+					<i class="fa-solid fa-shop fa-2x"></i>
+				</div>
+				<b>Shop management</b>
+			</div>
+			<div class="right-bar">
+				<strong sec:authorize="isAuthenticated()">
+					Hi, <span style="margin-right: 15px;" th:text="${name}"></span>
+					<i class="fa-solid fa-hands-clapping"></i>
+				</strong>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

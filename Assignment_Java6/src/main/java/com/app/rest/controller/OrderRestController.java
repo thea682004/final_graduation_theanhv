@@ -84,7 +84,7 @@ public class OrderRestController {
 
 	@PutMapping("update")
 	public Order update(@RequestBody Order order) {
-		return dao.save(order);
+		return orderService.updateOder(order);
 	}
 
 	@PutMapping("updateDetail")
