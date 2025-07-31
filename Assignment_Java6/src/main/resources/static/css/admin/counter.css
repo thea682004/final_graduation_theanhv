@@ -47,7 +47,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-  z-index: 20;
+  z-index: 90;
   padding: 8px 0;
 }
 
@@ -131,7 +131,7 @@
   gap: 10px;
   overflow-x: auto;
   padding: 10px;
-  max-width: 80%;
+  max-width: 90%;
 }
 
 .tab {
@@ -199,6 +199,59 @@
   padding: 4px;
 }
 
+/* Quantity Control */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  background: #f8f9fa;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  min-width: 30px;
+}
+
+.qty-btn:hover {
+  background: #e9ecef;
+}
+
+.qty-btn:disabled {
+  background: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.qty-input {
+  flex: 1;
+  border: none;
+  text-align: center;
+  padding: 4px;
+  background: white;
+  min-width: 40px;
+}
+
+.qty-input:focus {
+  outline: none;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-input[type=number] {
+  -moz-appearance: textfield;
+}
+
 /* Không có kết quả */
 .no-result-found {
   text-align: center;
@@ -257,7 +310,7 @@
 .product-price {
   color: #28a745;
   font-size: 14px;
-  position: relative;
+  /*position: relative;*/
 }
 
 /* Footer: Counter */

@@ -1,6 +1,7 @@
 package com.app.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,8 @@ public interface ProductSizeDAO extends JpaRepository<ProductSize, Integer> {
 
   @Query("SELECT p FROM ProductSize p WHERE p.size LIKE ?1 AND p.product.id = ?2")
   ProductSize findBySizeAndProductId(String size, Long productId);
+
+  @Query("SELECT ps FROM ProductSize ps WHERE ps.product.id = ?1 AND ps.size LIKE ?2")
+  Optional<ProductSize> findByProductAndSize(Long productId, String size);
 
 }

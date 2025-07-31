@@ -34,7 +34,8 @@
                                 <th>Size</th>
                                 <th>Qty</th>
                                 <th>Total</th>
-                                <th><a href="javascript:void(0)" ng-click="clearCart()">Del</a></th>
+                                <th>Del</th>
+<!--                                <th><a href="javascript:void(0)" ng-click="clearCart()">Del</a></th>-->
                             </tr>
                             <form action="/cart/update/${item.id}" method="post">
                                 <tr ng-repeat="item in cart.items track by (item.id + '-' + item.size)"
@@ -45,8 +46,31 @@
                                     <td style="width: 85px;">{{item.price | currency: "₫ ":0 }}</td>
                                     <td style="width: 65px;">{{item.size}}</td>
                                     <td style="width: 65px;">
-                                        <input ng-model="item.qty" class="w3-border w3-round" type="number" min="1"
-                                               step="1" ng-change="updateItemQty(item)">
+                                        <div class="quantity-control">
+                                            <button
+                                                type="button"
+                                                class="qty-btn qty-minus"
+                                                ng-click="decreaseQty(item)"
+                                                ng-disabled="item.disabled">
+                                                -
+                                            </button>
+                                            <input
+                                                class="w3-border w3-round qty-input"
+                                                type="number"
+                                                min="1"
+                                                step="1"
+                                                readonly
+                                                ng-model="item.inputQty"
+                                                ng-change="updateItemQty(item)"
+                                                ng-disabled="item.disabled">
+                                            <button
+                                                type="button"
+                                                class="qty-btn qty-plus"
+                                                ng-click="increaseQty(item)"
+                                                ng-disabled="item.disabled">
+                                                +
+                                            </button>
+                                        </div>
                                     </td>
                                     <td style="width: 130px;">{{item.price * item.qty | currency: "₫ ": 0 }}</td>
                                     <td style="width: 50px;"><i class="fa-solid fa-minus"
@@ -101,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="w3-center admin-product-navigator pagination">
+                <div class="w3-center admin-product-navigator pagination mt-3 d-flex justify-content-center">
                     <div class="w3-bar">
                         <button class="w3-bar-item" ng-click="pager.first()"><i
                                 class="fa-solid fa-backward-step"></i></button>
@@ -124,6 +148,7 @@
             <label class="form-label">Selected customer</label>
             <div class="d-flex justify-content-between align-items-center gap-2">
                 <input type="text" class="counter-input" ng-model="username" disabled />
+                <button class="btn btn-outline-secondary" ng-click="openModalCreateCustomer()">+</button>
                 <button class="counter-button" ng-click="quickAddCustomer()">Quick Add</button>
             </div>
         </div>
@@ -149,7 +174,7 @@
                 </div>
                 <div style="flex: 1;">
                     <p><strong>Change:</strong> {{ change | currency: "₫ ":0 }}</p>
-                    <p><strong>Total Payment:</strong> {{ getCartTotal() | currency: "₫ ":0 }}</p>
+                    <p><strong>Total Payment:</strong> <span class="text-danger">{{ getCartTotal() | currency: "₫ ":0 }}</span></p>
                 </div>
             </div>
             <div class="counter-payment-buttons">
@@ -203,6 +228,59 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--	Modal create new customer-->
+    <div class="modal fade" id="createNewCustomerModal" tabindex="-1" aria-labelledby="RoleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="customerModalLabel">Create new customer</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="createCustomerForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <span class="text-danger"> * </span> Username </label>
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">
+                                <span class="text-danger"> * </span> Full name </label>
+                            <input type="text" class="form-control" id="fullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <span class="text-danger"> * </span> Email </label>
+                            <input type="text" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">
+                                <span class="text-danger"> * </span> Phone number </label>
+                            <input type="text" class="form-control" id="phoneNumber" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">
+                                <span class="text-danger"> * </span> Address </label>
+                            <input type="text" class="form-control" id="address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-danger">(<span class="text-danger"> * </span>)
+                                Mật khẩu mặc định cho tài khoản là "abc".
+                                Vui lòng thông báo cho khách hàng thực hiện cập nhật mật khẩu cho tài khoản ngay sau khi đăng nhập lần đầu!
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal"
+                            style="background-color: black; color: white;">Đóng
+                    </button>
+                    <button type="button" class="btn btn-outline-dark" id="createCustomerButton">Tạo mới</button>
                 </div>
             </div>
         </div>

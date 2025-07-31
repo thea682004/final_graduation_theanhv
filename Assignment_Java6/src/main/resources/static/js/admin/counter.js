@@ -18,8 +18,16 @@ app.controller("counter-ctrl", function ($scope, $http) {
     $scope.accountData = null;
     $scope.inputQty = 0;
 
+    $scope.qtyProduct = 0;
+
+    $scope.moneyGiven = 0;
+    $scope.change = undefined;
+
     // Tạo đơn hàng mới
     $scope.createNewOrder = function () {
+        if($scope.pendingOrders && $scope.pendingOrders.length >= 5){
+            return;
+        }
         const newOrder = {
             id: Date.now(),
             items: [],
@@ -82,17 +90,15 @@ app.controller("counter-ctrl", function ($scope, $http) {
 
     // Load kích thước (size) của sản phẩm khi hover
     $scope.loadSizes = function (item) {
-        if (!item.sizes) {
-            $http.get("/rest/products/size/" + item.id).then(resp => {
-                item.sizes = resp.data;
-            }).catch(err => console.error("Lỗi khi load size:", err));
-        }
+        $http.get("/rest/products/size/" + item.id).then(resp => {
+            item.sizes = resp.data;
+        }).catch(err => console.error("Lỗi khi load size:", err));
     };
 
     // Thêm sản phẩm vào giỏ hàng
     $scope.addToCart = function (productId, size) {
         if (!$scope.selectedOrder) {
-            alert("Vui lòng chọn hoặc tạo hóa đơn trước!");
+            swal('Cảnh báo', "Vui lòng chọn hoặc tạo hóa đơn trước!", "waring")
             return;
         }
 
@@ -105,13 +111,27 @@ app.controller("counter-ctrl", function ($scope, $http) {
             return;
         }
 
+        const dataPut = {
+            productId: productId,
+            size: size,
+            quantity: 1,
+            increase: false
+        }
+        $http.put("/rest/productsize/update/quantity", dataPut).then(resp => {
+
+        }).catch(err => {
+            showToastError("Số lượng sản phẩm trong kho không đủ - ", err);
+        })
+
         // Giảm tồn kho
         sizeInfo.quantity -= 1;
+        $scope.qtyProduct = sizeInfo.quantity;
 
         // Tìm sản phẩm đã có trong giỏ
         let existingItem = $scope.selectedOrder.items.find(i => i.id === productId && i.size === size);
         if (existingItem) {
             existingItem.qty += 1;
+            existingItem.inputQty += 1;
         } else {
             $scope.selectedOrder.items.push({
                 id: productId,
@@ -121,6 +141,7 @@ app.controller("counter-ctrl", function ($scope, $http) {
                 price: product.price,
                 size: size,
                 qty: 1,
+                inputQty: 1,
                 product: {id: productId},
             });
         }
@@ -129,10 +150,76 @@ app.controller("counter-ctrl", function ($scope, $http) {
         saveOrdersToLocal();
     };
 
+    // Tăng số lượng sản phẩm
+    $scope.increaseQty = function (item) {
+        if (item.disabled) return;
+        item.inputQty = (parseInt(item.inputQty) || 0) + 1;
+        $scope.updateItemQty(item);
+    };
+
+    // Giảm số lượng sản phẩm
+    $scope.decreaseQty = function (item) {
+        if (item.disabled) return;
+        let newQty = (parseInt(item.inputQty) || 0) - 1;
+        if (newQty >= 1) {
+            item.inputQty = newQty;
+            $scope.updateItemQty(item);
+        }
+    };
+
     // Cập nhật số lượng sản phẩm trong giỏ hàng
     $scope.updateItemQty = function (item) {
-        saveOrdersToLocal();
-        $scope.getCartTotal();
+        let inputQty = parseInt(item.inputQty);
+        let currentQty = item.qty;
+
+        if (isNaN(inputQty) || isNaN(currentQty)) {
+            showToastError("Giá trị số lượng không hợp lệ");
+            return;
+        }
+
+        fetchQuantityProduct(item.id, item.size).then(data => {
+            let isIncrease = inputQty < currentQty;
+            if (data === 0 && !isIncrease) {
+                showToastError("Sản phẩm trong kho không đủ!");
+                item.inputQty = currentQty;
+                $scope.maxQtyProduct = currentQty + data;
+                return;
+            }
+
+            let qtyUse = Math.abs(inputQty - currentQty);
+            if (qtyUse === 0) return;
+            if (!isIncrease && qtyUse > data) {
+                showToastError("Số lượng vượt quá tồn kho!");
+                return;
+            }
+
+            item.qty = inputQty;
+
+            const dataPut = {
+                productId: item.id,
+                size: item.size,
+                quantity: qtyUse,
+                increase: isIncrease
+            };
+
+            $http({
+                method: "put",
+                url: "/rest/productsize/update/quantity",
+                data: dataPut,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(resp => {
+                if (resp.status === 200) {
+                    $scope.loadSizes(item);
+                }
+            }).catch(err => {
+                showToastError("Lỗi cập nhật số lượng sản phẩm!", err);
+            });
+
+            saveOrdersToLocal();
+            $scope.getCartTotal();
+        });
     };
 
     // Xóa sản phẩm khỏi giỏ hàng
@@ -143,6 +230,31 @@ app.controller("counter-ctrl", function ($scope, $http) {
             $scope.cart.items = $scope.selectedOrder.items;
             saveOrdersToLocal();
         }
+
+        const dataPut = {
+            productId: item.id,
+            size: item.size,
+            quantity: item.qty,
+            increase: true
+        };
+
+        $http({
+            method: "put",
+            url: "/rest/productsize/update/quantity",
+            data: dataPut,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(resp => {
+            if (resp.status === 200) {
+                $scope.loadSizes(item);
+            }
+        }).catch(err => {
+            showToastError("Lỗi cập nhật số lượng sản phẩm!", err);
+        });
+
+        saveOrdersToLocal();
+        $scope.getCartTotal();
     };
 
     // Xóa toàn bộ giỏ hàng
@@ -181,7 +293,6 @@ app.controller("counter-ctrl", function ($scope, $http) {
         $scope.pager.totalPages = Math.ceil($scope.filteredItems.length / $scope.pager.size);
     });
 
-    // Handle quick customer add
     $scope.quickAddCustomer = function () {
         $('#modifyCustomerModal').modal('show');
         $http.get("/rest/accounts").then(res => {
@@ -207,7 +318,17 @@ app.controller("counter-ctrl", function ($scope, $http) {
 
     $scope.handlePayment = function () {
 
-        const orderDetails = [];2
+        if (!$scope.selectedOrder) {
+            swal('Cảnh báo', "Vui lòng chọn hóa đơn cần thanh toán!", "warning")
+            return;
+        }
+
+        if($scope.change === undefined) {
+            swal('Cảnh báo', "Số tiền khách đưa không hợp lệ!", "warning")
+            return;
+        }
+
+        const orderDetails = [];
 
         if (Array.isArray($scope.cart.items)) {
             $scope.cart.items.forEach((item) => {
@@ -231,17 +352,183 @@ app.controller("counter-ctrl", function ($scope, $http) {
             orderDetails: orderDetails,
         }
 
-        $http.post("/rest/orders", orderData).then(resp => {
-            if(resp.status === 200) {
-                const orderId = $scope.selectedOrder.id;
-                $scope.removePendingOrder(orderId);
-                $scope.username = "None";
-                showToastSuccess("Successfully!")
+        if(!validateOrderData(orderData)) return;
+
+        swal({
+            title: "Xác nhận?",
+            text: "Bạn chắc chắn muốn hoàn thành đơn hàng?",
+            type: "warning",
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: "Hủy",
+                    className: "btn btn-dark",
+                },
+                confirm: {
+                    text: "Hoàn thành",
+                    className: "btn btn-outline-dark",
+                },
+            },
+        }).then((confirm) => {
+            if (confirm) {
+                $http.post("/rest/orders", orderData).then(resp => {
+                    if(resp.status === 200) {
+                        const orderId = $scope.selectedOrder.id;
+                        $scope.removePendingOrder(orderId);
+                        $scope.username = "None";
+                        $scope.change = undefined;
+                        $scope.moneyGiven = 0;
+                        swal('Thành công', "Thanh toán thành công!", "success")
+                    }
+                }).catch(err => {
+                    swal('Lỗi', "Có lỗi xảy ra trong quá trình thanh toán!", "error")
+                })
+            } else {
+                showToastSuccess('Bạn đã hủy thành công!')
             }
-        }).catch(err => {
-            console.log(err);
-            alert("An occurred while payment order!");
-        })
+        });
     }
+
+    const fetchQuantityProduct = function(idProduct, size) {
+        return $http.get(`/rest/productsize/get-quantity?id=${idProduct}&size=${size}`)
+            .then(resp => {
+                if (resp.status === 200) {
+                    return resp.data;
+                }
+            })
+            .catch(err => {
+                console.log("An error occurred:", err);
+            });
+    };
+
+    $scope.openModalCreateCustomer = () => {
+        $('#createNewCustomerModal').modal('show');
+    }
+
+    $('#createCustomerButton').on('click', function () {
+        $('#createNewCustomerModal').modal('hide');
+        swal({
+            title: "Xác nhận?",
+            text: "Bạn chắc chắn muốn thêm khách hàng không?",
+            type: "warning",
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: "Hủy",
+                    className: "btn btn-dark",
+                },
+                confirm: {
+                    text: "Thêm",
+                    className: "btn btn-outline-dark",
+                },
+            },
+        }).then((confirm) => {
+            if (confirm) {
+                createCustomer();
+            } else {
+                $('#createNewCustomerModal').modal('show');
+            }
+        });
+    });
+
+    function validateData(data) {
+        if (!data.username) {
+            swal("Lỗi", "Tên đăng nhập không được để trống", "error");
+            return false;
+        }
+        if (!data.fullname) {
+            swal("Lỗi", "Họ tên không được để trống", "error");
+            return false;
+        }
+        if (!data.email) {
+            swal("Lỗi", "Email không được để trống", "error");
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            swal("Lỗi", "Email không hợp lệ", "error");
+            return false;
+        }
+        if (!data.sdt) {
+            swal("Lỗi", "Số điện thoại không được để trống", "error");
+            return false;
+        }
+        const phoneRegex = /^[0-9]{9,15}$/;
+        if (!phoneRegex.test(data.sdt)) {
+            swal("Lỗi", "Số điện thoại không hợp lệ", "error");
+            return false;
+        }
+        if (!data.address) {
+            swal("Lỗi", "Địa chỉ không được để trống", "error");
+            return false;
+        }
+        if (!data.password) {
+            swal("Lỗi", "Mật khẩu không được để trống", "error");
+            return false;
+        }
+        if (data.password !== data.confirmPassword) {
+            swal("Lỗi", "Mật khẩu xác nhận không khớp", "error");
+            return false;
+        }
+        return true;
+    }
+
+
+    function createCustomer() {
+        let data = {
+            username: $('#username').val().trim(),
+            password: "abc",
+            confirmPassword: "abc",
+            fullname: $('#fullName').val().trim(),
+            email: $('#email').val().trim(),
+            sdt: $('#phoneNumber').val().trim(),
+            address: $('#address').val().trim(),
+        }
+
+        if(validateData(data)) {
+            $http.post("/login/create-customer", data).then(resp => {
+                if (resp.status === 200) {
+                    showToastSuccess("Tạo khách hàng thành công!");
+                    $scope.selectCustomer(resp.data?.username);
+                    $('#createNewCustomerModal').modal('hide');
+                }
+            }).catch(err => {
+                showToastError("Có lỗi xảy ra khi tạo khách hàng!");
+                $('#createNewCustomerModal').modal('show');
+            })
+        }
+    }
+
+    function validateOrderData(orderData) {
+        if (!orderData.totalAmount || orderData.totalAmount <= 0) {
+            swal("Lỗi", "Giỏ hàng đang trống hoặc số tiền không hợp lệ", "error");
+            return false;
+        }
+
+        if (!Array.isArray(orderData.orderDetails) || orderData.orderDetails.length === 0) {
+            swal("Lỗi", "Không có sản phẩm nào trong đơn hàng", "error");
+            return false;
+        }
+
+        for (let i = 0; i < orderData.orderDetails.length; i++) {
+            const item = orderData.orderDetails[i];
+            if (!item.size || !item.quantity || item.quantity <= 0) {
+                swal("Lỗi", `Thông tin sản phẩm ở dòng ${i + 1} không hợp lệ`, "error");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    $scope.updateChange = function () {
+        const total = $scope.getCartTotal?.() || 0;
+        const pay = parseFloat($scope.moneyGiven) || 0;
+
+        if (pay >= total) {
+            $scope.change = pay - total;
+        } else {
+            $scope.change = undefined;
+        }
+    };
 
 });

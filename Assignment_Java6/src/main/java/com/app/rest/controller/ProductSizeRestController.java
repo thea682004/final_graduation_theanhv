@@ -1,7 +1,9 @@
 package com.app.rest.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.app.model.UpdateQuantityRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,5 +49,15 @@ public class ProductSizeRestController {
   @DeleteMapping("delete/{id}")
   public void delete(@PathVariable("id") Integer id) {
     dao.deleteById(id);
+  }
+
+  @GetMapping("/get-quantity")
+  public Integer getQuantity(@RequestParam String id, @RequestParam String size) {
+      return productSizeService.getQuantityByProductAndSize(Long.parseLong(id), size);
+  }
+
+  @PutMapping("/update/quantity")
+  public ProductSize updateQuantity(@RequestBody UpdateQuantityRequest request) {
+      return productSizeService.updateSize(request);
   }
 }
